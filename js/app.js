@@ -79,9 +79,38 @@ var ViewModel = function(){
 
 
 
-var locations = [
+var restaurants = [
     {
-
+        name: 'El Paso Mexicano',
+        coordinates: {lat: 40.790, lng: -73.947}
+    },
+    {
+        name: 'Taco Mix',
+        coordinates: {lat: 40.797, lng: -73.938}
+    },
+    {
+        name: 'Guajillo',
+        coordinates: {lat: 40.796, lng: -73.935}
+    },
+    {
+        name: "Delicias Mexicanas",
+        coordinates: {lat: 40.797, lng: -73.940}
+    },
+    {
+        name: "Ollin",
+        coordinates: {lat: 40.791, lng: -73.939}
+    },
+    {
+        name: "Lupita's",
+        coordinates: {lat: 40.790, lng: -73.943}
+    },
+    {
+        name: "Hot Jalapeno",
+        coordinates: {lat: 40.797, lng: -73.939}
+    },
+    {
+        name: "Burritos y Mas",
+        coordinates: {lat: 40.788, lng: -73.948}
     }
 ]
 
@@ -95,14 +124,36 @@ var Cat = function (data){
 */
 
 /* need to add grubhub */
-
+/*  Model   */
 var Restaurant = function(data){
     this.name = ko.observable(data.name);
-}
+    this.coordinates = ko.observable(data.coordinates);
+};
+
+
 
 var ViewModel = function(){
 
+    var self = this;
+
+    this.restaurantList = ko.observableArray([]);
+
+    restaurants.forEach(function(restaurant){
+        self.restaurantList.push( new Restaurant(restaurant))
+    });
+
+
+/*
+    this.getCurrentRestaurant = function(clicked){
+        self.currentRestaurant(clicked)
+    }
+
+    this.currentRestaurant = ko.observable( this.restaurantList()[0] );
+*/
 }
+
+
+
 
 
 ko.applyBindings(new ViewModel())
