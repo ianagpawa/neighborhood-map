@@ -1,25 +1,4 @@
 /*
-var initialCats = [
-    {
-        clickCount: 0,
-        name: 'Tabby',
-        imgSrc: 'https://placekitten.com/g/600/400',
-        nicknames: ['Dr. StrangeHate', 'Chairman Meow']
-    },
-    {
-        clickCount: 0,
-        name: 'Monster',
-        imgSrc: 'https://placekitten.com/g/600/400',
-        nicknames: ['Chairman Meow', 'Catclops']
-    },
-    {
-        clickCount: 0,
-        name: 'Roger',
-        imgSrc: 'https://placekitten.com/g/600/400',
-        nicknames: ['Chairman Meow', 'Catclops']
-    }
-
-];
 
 var Cat = function (data){
     this.clickCount = ko.observable(data.clickCount);
@@ -114,16 +93,8 @@ var restaurants = [
     }
 ]
 
-/*
-var Cat = function (data){
-    this.clickCount = ko.observable(data.clickCount);
-    this.name = ko.observable(data.name);
-    this.imgSrc = ko.observable(data.imgSrc);
-    this.nicknames = ko.observable(data.nicknames);
-}
-*/
 
-/* need to add grubhub */
+
 /*  Model   */
 var Restaurant = function(data){
     this.name = ko.observable(data.name);
