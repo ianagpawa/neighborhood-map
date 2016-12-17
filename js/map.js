@@ -32,62 +32,81 @@ function initMap() {
 
 }
 
-function getCurrentDate(){
 
-    function addZero(n){
-        if (n < 10) {
-            n = '0' + n
+
+
+function getAjax(restaurant){
+
+    function getCurrentDate(){
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1;
+        var year = today.getFullYear().toString();
+
+        function addZero(n){
+            if (n < 10) {
+                n = '0' + n
+            }
+            return n.toString()
         }
-        return n.toString()
+
+        day = addZero(day);
+        month = addZero(month);
+
+        return year + month + day
     }
 
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear().toString();
 
-    day = addZero(day);
-    month = addZero(month);
+    var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
 
-    return year + month + day
+    var coorObj = restaurant.coordinates
+
+    var lat = coorObj['lat'].toString();
+    var long = coorObj['lng'].toString();
+    var coordinates = [lat, long].join(",");
+
+    function formatName(name){
+        var array = name.split(" ");
+        return array.join("%20")
+    }
+
+    var query = "&query=%RESTAURANT_NAME%";
+    var formattedName = formatName(restaurant.name);
+    var restaurant = query.replace("%RESTAURANT_NAME%", formattedName)
+
+    var city = "&near=New%20York,NY"
+
+    var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
+
+    var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
+
+    var currentDate = getCurrentDate();
+
+    var version = "&v=%DATE%".replace("%DATE%", currentDate)
+
+    var url = urlStart + coordinates + restaurant + city + client_id + client_secret + version
+
+    var data;
+
+    $.ajax({
+        dataType: 'json',
+        url: url,
+        success: function(wiki){
+            data = (wiki.response.venues[0])
+        }
+    })
+
+    return data;
 }
 
-
-var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
-
-var restaurantObj = {
+testRes = {
     name: 'El Paso Mexicano',
     coordinates: {lat: 40.790, lng: -73.947}
 }
 
-var coorObj = restaurantObj.coordinates
+var test = getAjax(testRes)
 
-var lat = coorObj['lat'].toString();
-var long = coorObj['lng'].toString();
-var coordinates = [lat, long].join(",");
-
-function formatName(name){
-    var array = name.split(" ");
-    return array.join("%20")
-}
-
-var query = "&query=%RESTAURANT_NAME%";
-var formattedName = formatName(restaurantObj.name);
-var restaurant = query.replace("%RESTAURANT_NAME%", formattedName)
-
-var city = "&near=New%20York,NY"
-
-var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
-
-var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
-
-var currentDate = getCurrentDate();
-
-var version = "&v=%DATE%".replace("%DATE%", currentDate)
-
-var url = urlStart + coordinates + restaurant + city + client_id + client_secret + version
-
-console.log(url)
+console.log(testRes)
 
 /*
 
