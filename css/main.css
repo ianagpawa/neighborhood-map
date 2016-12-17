@@ -1,8 +1,7 @@
-/* Always set the map height explicitly to define the size of the div
- * element that contains the map. */
+
 #map {
-  height: 75vh;
-  width: 90vw;
+  height: 60vh;
+  width: 95vw;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {

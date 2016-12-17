@@ -1,12 +1,10 @@
 
 /*  From Google Maps API Documentation */
-
-
 function initMap() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.793, lng: -73.946},
-        zoom: 16
+        center: {lat: 40.793, lng: -73.941},
+        zoom: 15
     });
 
 
@@ -57,34 +55,37 @@ function getAjax(restaurant){
     }
 
 
+    /*  Builds URL string for ajax call */
+
     var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
 
     var coorObj = restaurant.coordinates
-
     var lat = coorObj['lat'].toString();
     var long = coorObj['lng'].toString();
     var coordinates = [lat, long].join(",");
+
+
+    var query = "&query=%RESTAURANT_NAME%";
 
     function formatName(name){
         var array = name.split(" ");
         return array.join("%20")
     }
 
-    var query = "&query=%RESTAURANT_NAME%";
     var formattedName = formatName(restaurant.name);
     var restaurant = query.replace("%RESTAURANT_NAME%", formattedName)
 
     var city = "&near=New%20York,NY"
 
     var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
-
     var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
 
     var currentDate = getCurrentDate();
-
     var version = "&v=%DATE%".replace("%DATE%", currentDate)
 
+    /*  Finied url  */
     var url = urlStart + coordinates + restaurant + city + client_id + client_secret + version
+
 
     var data;
 
@@ -99,6 +100,8 @@ function getAjax(restaurant){
     return data;
 }
 
+
+/*
 testRes = {
     name: 'El Paso Mexicano',
     coordinates: {lat: 40.790, lng: -73.947}
@@ -107,6 +110,8 @@ testRes = {
 var test = getAjax(testRes)
 
 console.log(testRes)
+
+*/
 
 /*
 
