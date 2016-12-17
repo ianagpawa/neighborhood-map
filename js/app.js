@@ -85,9 +85,19 @@ var locations = [
     }
 ]
 
+/*
+var Cat = function (data){
+    this.clickCount = ko.observable(data.clickCount);
+    this.name = ko.observable(data.name);
+    this.imgSrc = ko.observable(data.imgSrc);
+    this.nicknames = ko.observable(data.nicknames);
+}
+*/
 
-var Location = function(data){
+/* need to add grubhub */
 
+var Restaurant = function(data){
+    this.name = ko.observable(data.name);
 }
 
 var ViewModel = function(){
