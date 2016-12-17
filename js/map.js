@@ -1,14 +1,9 @@
 
-
-
 /*  From Google Maps API Documentation */
 function initMap() {
 
-
-
-
     var restaurant_list = [
-        {name: 'El Paso Mexican', location: {lat: 40.790, lng: -73.947} },
+        {name: 'El Paso Mexicano', location: {lat: 40.790, lng: -73.947} },
         {name: 'Taco Mix', location: {lat: 40.797, lng: -73.938} },
         {name: 'Guajillo', location: {lat: 40.796, lng: -73.935} },
         {name: "Delicias Mexicanas", location: {lat: 40.797, lng: -73.940 }},
@@ -24,30 +19,50 @@ function initMap() {
         zoom: 16
     });
 
-    function singleMarker(lat_long_obj){
+
+    function singleMarker(restaurant){
         var marker = new google.maps.Marker({
-            position: lat_long_obj,
-            map: map
+            position: restaurant['location'],
+            map: map,
+            title: restaurant['name']
         })
         return marker
     }
 
-    var marker1 = singleMarker(restaurant_list[0]['location'])
-    var marker2 = singleMarker(restaurant_list[1]['location'])
-    var marker3 = singleMarker(restaurant_list[2]['location'])
-    var marker5 = singleMarker(restaurant_list[3]['location'])
-    var marker6 = singleMarker(restaurant_list[4]['location'])
-    var marker7 = singleMarker(restaurant_list[5]['location'])
-    var marker8 = singleMarker(restaurant_list[6]['location'])
-    var marker9 = singleMarker(restaurant_list[7]['location'])
+    function createMarkers(restaurant_list){
+        var markers = []
+        for (restaurant in restaurant_list){
+            markers.push(singleMarker(restaurant_list[restaurant]))
+        }
+        return markers
+    }
 
-    /*
-    var marker = new google.maps.Marker({
-        position: restaurant,
-        map: map
-    })
-    */
+    var markers = createMarkers(restaurant_list)
+
+/*
+    var marker1 = singleMarker(restaurant_list[0])
+    var marker2 = singleMarker(restaurant_list[1])
+    var marker3 = singleMarker(restaurant_list[2])
+    var marker5 = singleMarker(restaurant_list[3])
+    var marker6 = singleMarker(restaurant_list[4])
+    var marker7 = singleMarker(restaurant_list[5])
+    var marker8 = singleMarker(restaurant_list[6])
+    var marker9 = singleMarker(restaurant_list[7])
+
+    var contentString = '<div id="content">'+ '<div id="siteNotice">'+ '</div>'+ '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+'<div id="bodyContent">'+'<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +'sandstone rock formation in the southern part of the '+'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+'south west of the nearest large town, Alice Springs; 450&#160;km '+'(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+'features of the Uluru - Kata Tjuta National Park. Uluru is '+'sacred to the Pitjantjatjara and Yankunytjatjara, the '+'Aboriginal people of the area. It has many springs, waterholes, '+'rock caves and ancient paintings. Uluru is listed as a World '+'Heritage Site.</p>'+'<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+'(last visited June 22, 2009).</p>'+'</div>'+'</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+   marker1.addListener('click', function() {
+       infowindow.open(map, marker1);
+    });
+
+*/
 }
+
+
 
 /* need to add grubhub */
 /*
