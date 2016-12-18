@@ -182,6 +182,13 @@ function getAjax(restaurant){
 }
 
 
+retrievedList = []
+
+restaurants.forEach(function(restaurant){
+    var populatedRestaurant = getAjax(restaurant)
+    retrievedList.push(populatedRestaurant)
+});
+
 
 
 
@@ -192,17 +199,18 @@ var ViewModel = function(){
 
     this.restaurantList = ko.observableArray([]);
 
-    restaurants.forEach(function(restaurant){
-        var populatedRestaurant = getAjax(restaurant)
-        self.restaurantList.push( new Restaurant(populatedRestaurant))
+    retrievedList.forEach(function(restaurant){
+        self.restaurantList.push( new Restaurant(restaurant));
     });
 
-    this.currentRestaurant = ko.observable( this.restaurantList[0] );
 
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked)
-        console.log(self.currentRestaurant(clicked))
     }
+
+    this.currentRestaurant = ko.observable( self.restaurantList[0] );
+
+
 
 
 
