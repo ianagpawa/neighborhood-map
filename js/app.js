@@ -182,6 +182,10 @@ function getAjax(restaurant){
 }
 
 
+
+
+
+
 var ViewModel = function(){
 
     var self = this;
@@ -192,6 +196,22 @@ var ViewModel = function(){
         var populatedRestaurant = getAjax(restaurant)
         self.restaurantList.push( new Restaurant(populatedRestaurant))
     });
+
+    this.currentRestaurant = ko.observable( this.restaurantList[0] );
+
+    this.getCurrentRestaurant = function(clicked){
+        self.currentRestaurant(clicked)
+        console.log(self.currentRestaurant(clicked))
+    }
+
+
+
+
+    this.openInfo = function(){
+
+        console.log(this.currentRestaurant)
+    };
+
 
 
 /*

@@ -22,7 +22,7 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"
                 data-bind="foreach: restaurantList">
-                    <li data-bind="text: name"></li>
+                    <li data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
               </ul>
             </div>
             <div class='test'></div>
