@@ -8,14 +8,28 @@ function initMap() {
     });
 
 
+
     function singleMarker(restaurant){
+        function toggleBounce() {
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            };
+        };
+
         var marker = new google.maps.Marker({
             position: restaurant['coordinates'],
             map: map,
-            title: restaurant['name']
-        })
+            title: restaurant['name'],
+            animation: google.maps.Animation.DROP
+        });
+
+        marker.addListener('click', toggleBounce);
         return marker
     }
+
+
 
     function createMarkers(restaurant_list){
         var markers = []
@@ -33,85 +47,6 @@ function initMap() {
 
 
 
-function getAjax(restaurant){
-
-    function getCurrentDate(){
-        var today = new Date();
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
-        var year = today.getFullYear().toString();
-
-        function addZero(n){
-            if (n < 10) {
-                n = '0' + n
-            }
-            return n.toString()
-        }
-
-        day = addZero(day);
-        month = addZero(month);
-
-        return year + month + day
-    }
-
-
-    /*  Builds URL string for ajax call */
-
-    var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
-
-    var coorObj = restaurant.coordinates
-    var lat = coorObj['lat'].toString();
-    var long = coorObj['lng'].toString();
-    var coordinates = [lat, long].join(",");
-
-
-    var query = "&query=%RESTAURANT_NAME%";
-
-    function formatName(name){
-        var array = name.split(" ");
-        return array.join("%20")
-    }
-
-    var formattedName = formatName(restaurant.name);
-    var restaurant = query.replace("%RESTAURANT_NAME%", formattedName)
-
-    var city = "&near=New%20York,NY"
-
-    var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
-    var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
-
-    var currentDate = getCurrentDate();
-    var version = "&v=%DATE%".replace("%DATE%", currentDate)
-
-    /*  Finied url  */
-    var url = urlStart + coordinates + restaurant + city + client_id + client_secret + version
-
-
-    var data;
-
-    $.ajax({
-        dataType: 'json',
-        url: url,
-        success: function(wiki){
-            data = (wiki.response.venues[0])
-        }
-    })
-
-    return data;
-}
-
-
-/*
-testRes = {
-    name: 'El Paso Mexicano',
-    coordinates: {lat: 40.790, lng: -73.947}
-}
-
-var test = getAjax(testRes)
-
-console.log(testRes)
-
-*/
 
 /*
 
