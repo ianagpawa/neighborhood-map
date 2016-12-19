@@ -161,10 +161,18 @@ var ViewModel = function(){
         read: function () {
         },
         write: function(value){
-            /*    NEED TO FILTER      */
+            var filter = this.filter().toLowerCase();
+            if (!filter){
+                return self.restaurantList();
+            } else {
+                return ko.utils.arrayFilter(self.restaurantList(), function(item){
+                    return ko.utils.stringStartsWith(item.name)
+                })
+            }
         },
         owner: this
     });
+
 
 
 
