@@ -1,62 +1,3 @@
-/*
-
-var Cat = function (data){
-    this.clickCount = ko.observable(data.clickCount);
-    this.name = ko.observable(data.name);
-    this.imgSrc = ko.observable(data.imgSrc);
-    this.nicknames = ko.observable(data.nicknames);
-
-
-    this.level = ko.computed(function(){
-        var level;
-        var click = this.clickCount();
-        if (click <= 2){
-            level = 'Newborn';
-        } else if (click < 12){
-            level = 'Infant';
-        } else if (click < 18){
-            level = 'Teen';
-        } else if (click < 25){
-            level = 'Youngin';
-        } else if (click < 65){
-            level = 'Adult';
-        } else{
-            level = "Viejo";
-        };
-        return level
-    }, this);
-
-
-}
-
-
-
-var ViewModel = function(){
-    var self = this;
-
-    this.catList = ko.observableArray([]);
-
-    initialCats.forEach(function(catItem){
-        self.catList.push ( new Cat(catItem));
-    });
-
-    this.getCurrentCat = function(clicked){
-        self.currentCat(clicked)
-    }
-
-    this.currentCat = ko.observable( this.catList()[0] );
-
-    this.incrementCounter = function(){
-        self.currentCat().clickCount(self.currentCat().clickCount() + 1);
-
-    };
-
-
-}
-
-*/
-
-
 
 var restaurants = [
     {
@@ -166,29 +107,16 @@ function getAjax(restaurant_name, callback){
         success: function(foursquare){
             data = foursquare.response.venues[0];
             callback(data)
-            /*
-            var id = restaurantRes.id;
-            console.log(id)
-            restaurant.id = id;
-
-            var address = restaurantRes.location.formattedAddress[0];
-
-            restaurant['address'] = address;
-
-            */
-
-
-
         },
         error: function(){
 
         }
     })
 
-
 }
 
-function thing(restaurant, array){
+
+function createRestaurant(restaurant, array){
     var restaurant = {
         name: restaurant.name,
         coordinates: restaurant.coordinates
@@ -212,13 +140,6 @@ function thing(restaurant, array){
 
 
 
-
-
-
-
-
-
-
 var ViewModel = function(){
 
     var self = this;
@@ -226,7 +147,7 @@ var ViewModel = function(){
     this.restaurantList = ko.observableArray([]);
 
     restaurants.forEach(function(restaurant){
-        thing(restaurant, self.restaurantList);
+        createRestaurant(restaurant, self.restaurantList);
     });
 
 
@@ -236,25 +157,6 @@ var ViewModel = function(){
 
     this.currentRestaurant = ko.observable( self.restaurantList[0] );
 
-
-
-
-
-
-    this.openInfo = function(){
-
-        console.log(this.currentRestaurant)
-    };
-
-
-
-/*
-    this.getCurrentRestaurant = function(clicked){
-        self.currentRestaurant(clicked)
-    }
-
-    this.currentRestaurant = ko.observable( this.restaurantList()[0] );
-*/
 }
 
 

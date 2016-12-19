@@ -15,17 +15,17 @@
             <h3 id='test'></h3>
         </div>
         <div class='container-fluid'>
-            <div class="dropdown">
+            <div class="dropdown col-md-1">
               <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 Restaurants
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"
                 data-bind="foreach: restaurantList">
-                    <li data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
+                    <li class='dropdown-li text-center' data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
               </ul>
             </div>
-            <div class='test'></div>
+
             <div class='container-fluid'>
                 <div id="map"></div>
             </div>
@@ -34,20 +34,17 @@
     </div>
 
 
-<div id="restaurant_content" data-bind='with: currentRestaurant'>
+<div class='text-center' id="restaurant_content" data-bind='with: currentRestaurant'>
 
     <h1 id="restaurant_name"
         class="firstHeading"
         data-bind="text: name">
     </h1>
-    <h3 data-bind='text: address'></h3>
     <div id="restaurant_info">
-
+        <p data-bind="text: address"></p>
         <p>
-
-        </p>
-        <p data-bind="text: address">
-            <a id='menu_link'>
+            <a target="_blank" data-bind="attr: {href: menu}">
+                Menu
             </a>
         </p>
     </div>
