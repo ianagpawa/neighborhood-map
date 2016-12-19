@@ -20,9 +20,14 @@
                 Restaurants
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"
-                data-bind="foreach: restaurantList">
-                    <li class='dropdown-li text-center' data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        <input data-bind="textInput: filteredList"/>
+                    </li>
+                    <div class="dropdown-divider"></div>
+                    <div data-bind="foreach: restaurantList"s>
+                        <li class='dropdown-li text-center' data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
+                    </div>
               </ul>
             </div>
 

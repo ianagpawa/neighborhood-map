@@ -157,6 +157,17 @@ var ViewModel = function(){
 
     this.currentRestaurant = ko.observable( self.restaurantList[0] );
 
+    this.filteredList = ko.pureComputed({
+        read: function () {
+        },
+        write: function(value){
+            /*    NEED TO FILTER      */
+        },
+        owner: this
+    });
+
+
+
 }
 
 
