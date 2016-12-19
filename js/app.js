@@ -97,6 +97,7 @@ var restaurants = [
 
 /*  Model   */
 var Restaurant = function(data){
+
     this.name = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.id = ko.observable(data.id);
@@ -106,7 +107,8 @@ var Restaurant = function(data){
 };
 
 
-function getAjax(restaurant){
+/* ajax function  need to pass through callback */
+function getAjax(restaurant_name, callback){
 
     function getCurrentDate(){
         var today = new Date();
@@ -136,12 +138,12 @@ function getAjax(restaurant){
 
     var query = "&query=%RESTAURANT_NAME%";
 
-    function formatName(name){
-        var array = name.split(" ");
-        return array.join("%20")
+    function formatName(restaurant_name){
+        var name_array = restaurant_name.split(" ");
+        return name_array.join("%20")
     }
 
-    var formattedName = formatName(restaurant.name);
+    var formattedName = formatName(restaurant_name);
     var restaurantName = query.replace("%RESTAURANT_NAME%", formattedName)
 
     var city = "&near=New%20York,NY"
@@ -158,36 +160,60 @@ function getAjax(restaurant){
     var url = urlStart + coordinates + restaurantName + city + limit + client_id + client_secret + version
 
 
-    var data = $.ajax({
+    $.ajax({
         dataType: 'json',
         url: url,
         success: function(foursquare){
-            var restaurantRes = foursquare.response.venues[0];
-
+            data = foursquare.response.venues[0];
+            callback(data)
+            /*
             var id = restaurantRes.id;
+            console.log(id)
             restaurant.id = id;
 
             var address = restaurantRes.location.formattedAddress[0];
-            restaurant.address = address;
 
-            if (restaurantRes.hasMenu){
-                var menu = restaurantRes.menu.url;
-                restaurant.menu = menu;
-            }
+            restaurant['address'] = address;
+
+            */
+
+
+
+        },
+        error: function(){
 
         }
-
     })
-    return restaurant;
+
+
+}
+
+function thing(restaurant, array){
+    var restaurant = {
+        name: restaurant.name,
+        coordinates: restaurant.coordinates
+    };
+
+    getAjax(restaurant.name, function(data){
+        var id = data.id;
+        restaurant.id = id;
+
+        var address = data.location.formattedAddress[0];
+        restaurant.address = address
+
+        if (data.hasMenu){
+            var menu = data.menu.url;
+            restaurant.menu = menu
+        }
+        array.push(new Restaurant(restaurant))
+    })
+
 }
 
 
-retrievedList = []
 
-restaurants.forEach(function(restaurant){
-    var populatedRestaurant = getAjax(restaurant)
-    retrievedList.push(populatedRestaurant)
-});
+
+
 
 
 
@@ -199,8 +225,8 @@ var ViewModel = function(){
 
     this.restaurantList = ko.observableArray([]);
 
-    retrievedList.forEach(function(restaurant){
-        self.restaurantList.push( new Restaurant(restaurant));
+    restaurants.forEach(function(restaurant){
+        thing(restaurant, self.restaurantList);
     });
 
 
