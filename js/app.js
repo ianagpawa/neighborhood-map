@@ -2,35 +2,52 @@
 var restaurants = [
     {
         name: 'El Paso Mexicano',
-        coordinates: {lat: 40.79072812277658, lng: -73.94721890430739}
+        coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
+        favorite: "Fish Taco",
+        summary: "Favorite taco place.  They got rid of the Lengua tacos, but their remaining taco line up is pretty solid. Really good green sauce.",
     },
     {
         name: 'Taco Mix',
-        coordinates: {lat: 40.79727935, lng: -73.938542}
+        coordinates: {lat: 40.79727935, lng: -73.938542},
+        favorite: "OrejaTaco",
+        summary: "Authentic tacos, but a bit inconsistent.  Wide range of taco offerings. Decent."
     },
     {
         name: 'Guajillo',
-        coordinates: {lat: 40.796939, lng: -73.935039}
+        coordinates: {lat: 40.796939, lng: -73.935039},
+        favorite: "Tripa Taco",
+        summary: "Good tacos, but not always great."
     },
     {
         name: "Delicias Mexicanas",
-        coordinates: {lat: 40.79746301121289, lng: -73.94036497052035}
+        coordinates: {lat: 40.79746301121289, lng: -73.94036497052035},
+        favorite: "Al Pastor Taco",
+        summary: "Good food, no complaints."
     },
     {
         name: "Ollin",
-        coordinates: {lat: 40.791111156036116, lng: -73.93960723430115}
+        coordinates: {lat: 40.791111156036116, lng: -73.93960723430115},
+        favorite: "Pollo Taco",
+        summary: "Pretty good food."
     },
     {
         name: "Lupita's",
-        coordinates: {lat: 40.79014530307375, lng: -73.942862034803}
+        coordinates: {lat: 40.79014530307375, lng: -73.942862034803},
+        favorite: 'Lengua Taco',
+        summary: "Ok tacos, not bad."
     },
     {
         name: "Hot Jalapeno",
-        coordinates: {lat: 40.7977, lng: -73.939}
+        coordinates: {lat: 40.7977, lng: -73.939},
+        favorite: 'Carn Asada Taco',
+        summary: "Suprisingly decent."
     },
     {
-        name: "Burritos y Mas",
-        coordinates: {lat: 40.78879863582666, lng: -73.94859841887865}
+        name: "Taqueria Guadalupe",
+        coordinates: {lat: 40.79402106079923, lng: -73.94332126150972},
+        favorite: 'Chorizo Taco',
+        summary: "Meh.  There are better places to eat better food.  Last resort tacos."
+
     }
 ];
 
@@ -44,6 +61,10 @@ var Restaurant = function(data){
     this.id = ko.observable(data.id);
     this.address = ko.observable(data.address);
     this.menu = ko.observable(data.menu);
+    this.delivery = ko.observable(data.delivery);
+    this.favorite = ko.observable(data.favorite);
+    this.summary = ko.observable(data.summary);
+    this.phone = ko.observable(data.phone);
 
 };
 
@@ -119,7 +140,9 @@ function getAjax(restaurant_name, callback){
 function createRestaurant(restaurant, array){
     var restaurant = {
         name: restaurant.name,
-        coordinates: restaurant.coordinates
+        coordinates: restaurant.coordinates,
+        favorite: restaurant.favorite,
+        summary: restaurant.summary
     };
 
     getAjax(restaurant.name, function(data){
@@ -133,6 +156,13 @@ function createRestaurant(restaurant, array){
             var menu = data.menu.url;
             restaurant.menu = menu
         }
+
+        var delivery = data.delivery.url
+        restaurant.delivery = delivery;
+
+        var phone = data.contact.formattedPhone;
+        restaurant.phone = phone;
+
         array.push(new Restaurant(restaurant))
     })
 

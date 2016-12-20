@@ -47,11 +47,20 @@
     </h1>
     <div id="restaurant_info">
         <p data-bind="text: address"></p>
-        <p>
+        <p data-bind="text: phone"></p>
+        <p>Favorite taco: <span data-bind="text: favorite"></span></p>
+        <p data-bind="text: summary"></p>
+        <p data-bind='if: menu'>
             <a target="_blank" data-bind="attr: {href: menu}">
                 Menu
             </a>
         </p>
+        <p>
+            <a target="_blank" data-bind="attr: {href: delivery}">
+                ORDER NOW!
+            </a>
+        </p>
+
     </div>
 </div>
 
