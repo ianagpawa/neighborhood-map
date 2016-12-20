@@ -9,9 +9,10 @@ var restaurants = [
     {
         name: 'Taco Mix',
         coordinates: {lat: 40.79727935, lng: -73.938542},
-        favorite: "OrejaTaco",
+        favorite: "Oreja Taco",
         summary: "Authentic tacos, but a bit inconsistent.  Wide range of taco offerings. Decent."
     },
+    /*  DOESN'T Load    */
     {
         name: 'Guajillo',
         coordinates: {lat: 40.796939, lng: -73.935039},
@@ -30,6 +31,7 @@ var restaurants = [
         favorite: "Pollo Taco",
         summary: "Pretty good food."
     },
+    /*  DOESN'T Load    */
     {
         name: "Lupita's",
         coordinates: {lat: 40.79014530307375, lng: -73.942862034803},
@@ -39,7 +41,7 @@ var restaurants = [
     {
         name: "Hot Jalapeno",
         coordinates: {lat: 40.7977, lng: -73.939},
-        favorite: 'Carn Asada Taco',
+        favorite: 'Carne Asada Taco',
         summary: "Suprisingly decent."
     },
     {
@@ -154,14 +156,15 @@ function createRestaurant(restaurant, array){
 
         if (data.hasMenu){
             var menu = data.menu.url;
-            restaurant.menu = menu
-        }
+            restaurant.menu = menu;
 
-        var delivery = data.delivery.url
-        restaurant.delivery = delivery;
+            delivery = data.delivery.url;
+            restaurant.delivery = delivery;
+        }
 
         var phone = data.contact.formattedPhone;
         restaurant.phone = phone;
+
 
         array.push(new Restaurant(restaurant))
     })

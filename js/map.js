@@ -29,20 +29,23 @@ function initMap() {
         marker.addListener('click', toggleBounce);
 
 
-        var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'>%RestaurantName%</h1><div id='restaurant_info'><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
+        var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
 
         var res_name = contentString.replace("%RestaurantName%", restaurant.name)
         var taco = res_name.replace("%TACO%", restaurant.favorite)
         var summary = taco.replace("%SUMMARY%", restaurant.summary)
-
-        /*  var address = res_name.replace("%ADDRESS%", restaurant.address) */
 
         var infowindow = new google.maps.InfoWindow({
             content: summary
         });
 
 
-        marker.addListener('click', function() {
+        infowindow.addListener("closeclick", function(){
+            marker.setAnimation(null);
+        })
+
+
+        marker.addListener('click', function(){
             infowindow.open(map, marker);
          });
 
