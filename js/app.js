@@ -1,4 +1,3 @@
-
 var restaurants = [
     {
         name: 'El Paso Mexicano',
@@ -71,105 +70,192 @@ var Restaurant = function(data){
 };
 
 
-/* ajax function  need to pass through callback */
-function getAjax(restaurant_name, callback){
 
-    function getCurrentDate(){
-        var today = new Date();
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
-        var year = today.getFullYear().toString();
-
-        function addZero(n){
-            if (n < 10) {
-                n = '0' + n
-            }
-            return n.toString()
-        }
-
-        day = addZero(day);
-        month = addZero(month);
-
-        return year + month + day
-    }
-
-
-    /*  Builds URL string for ajax call */
-
-    var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
-
-    var coordinates = "40.793,-73.941"
-
-    var query = "&query=%RESTAURANT_NAME%";
-
-    function formatName(restaurant_name){
-        var name_array = restaurant_name.split(" ");
-        return name_array.join("%20")
-    }
-
-    var formattedName = formatName(restaurant_name);
-    var restaurantName = query.replace("%RESTAURANT_NAME%", formattedName)
-
-    var city = "&near=New%20York,NY"
-
-    var limit = "&limit=1"
-
-    var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
-    var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
-
-    var currentDate = getCurrentDate();
-    var version = "&v=%DATE%".replace("%DATE%", currentDate)
-
-    /*  Finied url  */
-    var url = urlStart + coordinates + restaurantName + city + limit + client_id + client_secret + version
-
-
-    $.ajax({
-        dataType: 'json',
-        url: url,
-        success: function(foursquare){
-            data = foursquare.response.venues[0];
-            callback(data)
-        },
-        error: function(){
-
-        }
-    })
-
-}
-
-
-function createRestaurant(restaurant, array){
-    var restaurant = {
+function createRestaurant(restaurant){
+    var retrievedRestaurant = {
         name: restaurant.name,
         coordinates: restaurant.coordinates,
         favorite: restaurant.favorite,
         summary: restaurant.summary
     };
 
-    getAjax(restaurant.name, function(data){
+
+    /* ajax function  need to pass through callback */
+    function getAjax(restaurant_name, callback){
+
+        function getCurrentDate(){
+            var today = new Date();
+            var day = today.getDate();
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear().toString();
+
+            function addZero(n){
+                if (n < 10) {
+                    n = '0' + n
+                }
+                return n.toString()
+            }
+
+            day = addZero(day);
+            month = addZero(month);
+
+            return year + month + day
+        }
+
+
+        /*  Builds URL string for ajax call */
+
+        var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
+
+        var coordinates = "40.793,-73.941"
+
+        var query = "&query=%RESTAURANT_NAME%";
+
+        function formatName(restaurant_name){
+            var name_array = restaurant_name.split(" ");
+            return name_array.join("%20")
+        }
+
+        var formattedName = formatName(restaurant_name);
+        var restaurantName = query.replace("%RESTAURANT_NAME%", formattedName)
+
+        var city = "&near=New%20York,NY"
+
+        var limit = "&limit=1"
+
+        var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
+        var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
+
+        var currentDate = getCurrentDate();
+        var version = "&v=%DATE%".replace("%DATE%", currentDate)
+
+        /*  Finied url  */
+        var url = urlStart + coordinates + restaurantName + city + limit + client_id + client_secret + version
+
+
+        $.ajax({
+            dataType: 'json',
+            url: url,
+            success: function(foursquare){
+                data = foursquare.response.venues[0];
+                callback(data)
+            },
+            error: function(){
+
+            }
+        })
+
+    }
+
+
+    getAjax(retrievedRestaurant.name, function(data){
         var id = data.id;
-        restaurant.id = id;
+        retrievedRestaurant.id = id;
 
         var address = data.location.formattedAddress[0];
-        restaurant.address = address
+        retrievedRestaurant.address = address
 
         if (data.hasMenu){
-            var menu = data.menu.url;
-            restaurant.menu = menu;
+            menu = data.menu.url;
+            retrievedRestaurant.menu = menu;
 
             delivery = data.delivery.url;
-            restaurant.delivery = delivery;
+            retrievedRestaurant.delivery = delivery;
         }
 
         var phone = data.contact.formattedPhone;
-        restaurant.phone = phone;
+        retrievedRestaurant.phone = phone;
 
 
-        array.push(new Restaurant(restaurant))
+        retrievedRestaurants.push(retrievedRestaurant)
+
+        modelRestaurants.push(new Restaurant(retrievedRestaurant))
+
     })
 
 }
+
+
+var retrievedRestaurants = [];
+var modelRestaurants = ko.observableArray([]);
+
+
+function initMap(){
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.794, lng: -73.937},
+        zoom: 15
+    });
+
+
+    restaurants.forEach(function(restaurant){
+        createRestaurant(restaurant)
+        singleMarker(restaurant)
+    });
+
+
+
+    function singleMarker(restaurant){
+        /*  From Google MAP API documentation   */
+        function toggleBounce() {
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            };
+        };
+
+        var marker = new google.maps.Marker({
+                     position: restaurant.coordinates,
+                     map: map,
+                     title: restaurant.name,
+                     animation: google.maps.Animation.DROP
+                 });
+
+        marker.addListener('click', toggleBounce);
+
+
+        var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
+
+        var res_name = contentString.replace("%RestaurantName%", restaurant.name)
+        var taco = res_name.replace("%TACO%", restaurant.favorite)
+        var summary = taco.replace("%SUMMARY%", restaurant.summary)
+
+        var infowindow = new google.maps.InfoWindow({
+            content: summary
+        });
+
+
+        infowindow.addListener("closeclick", function(){
+            marker.setAnimation(null);
+        })
+
+
+        marker.addListener('click', function(){
+            infowindow.open(map, marker);
+         });
+
+
+        return marker
+    }
+
+
+
+    function createMarkers(restaurant_list){
+        var markers = []
+
+        restaurant_list.forEach(function(restaurant){
+            markers.push(singleMarker(restaurant))
+        })
+
+        return markers
+    }
+
+    /*  restaurants (restaurant list) from app.js */
+    //  var markers = createMarkers(retrievedRestaurants);
+}
+
+
 
 
 
@@ -177,11 +263,7 @@ var ViewModel = function(){
 
     var self = this;
 
-    this.restaurantList = ko.observableArray([]);
-
-    restaurants.forEach(function(restaurant){
-        createRestaurant(restaurant, self.restaurantList);
-    });
+    this.restaurantList = modelRestaurants;
 
 
     this.getCurrentRestaurant = function(clicked){
@@ -213,6 +295,7 @@ var ViewModel = function(){
 
 
 
-
-
 ko.applyBindings(new ViewModel())
+
+
+/*  From Google Maps API Documentation */
