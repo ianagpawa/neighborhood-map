@@ -187,6 +187,7 @@ function initMap(){
         zoom: 15
     });
 
+    //console.log(modelRestaurants())
 
     restaurants.forEach(function(restaurant){
         createRestaurant(restaurant)
@@ -251,8 +252,6 @@ function initMap(){
         return markers
     }
 
-    /*  restaurants (restaurant list) from app.js */
-    //  var markers = createMarkers(retrievedRestaurants);
 }
 
 
@@ -265,6 +264,10 @@ var ViewModel = function(){
 
     this.restaurantList = modelRestaurants;
 
+    self.restaurantList().forEach(function(thing){
+        console.log(thing())
+    })
+
 
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked)
@@ -272,23 +275,19 @@ var ViewModel = function(){
 
     this.currentRestaurant = ko.observable( self.restaurantList[0] );
 
-    this.filteredList = ko.pureComputed({
-        read: function () {
-        },
-        write: function(value){
-            var filter = this.filter().toLowerCase();
-            if (!filter){
-                return self.restaurantList();
-            } else {
-                return ko.utils.arrayFilter(self.restaurantList(), function(item){
-                    return ko.utils.stringStartsWith(item.name)
-                })
-            }
-        },
-        owner: this
-    });
+    this.filter = ko.observable();
 
 
+    this.filteredList = ko.computed(function(){
+        var filter = self.filter();
+        if (!filter){
+            return self.restaurantList()
+        } else {
+            return ko.utils.arrayFilter(self.restaurantList(), function(restaurant){
+                return (filter == restaurant.name())
+            })
+        }
+    })
 
 
 }

@@ -22,10 +22,10 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <li>
-
+                        <input data-bind="value: filter, valueUpdate: 'keyup'"/>
                     </li>
                     <div class="dropdown-divider"></div>
-                    <div data-bind="foreach: restaurantList"s>
+                    <div data-bind="foreach: filteredList"s>
                         <li class='dropdown-li text-center' data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
                     </div>
               </ul>
