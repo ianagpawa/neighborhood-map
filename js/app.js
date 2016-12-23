@@ -187,7 +187,6 @@ function initMap(){
         zoom: 15
     });
 
-    //console.log(modelRestaurants())
 
     restaurants.forEach(function(restaurant){
         createRestaurant(restaurant)
@@ -279,12 +278,30 @@ var ViewModel = function(){
 
 
     this.filteredList = ko.computed(function(){
+
+        function camelCaseAll(input){
+
+            function upperCaseWord(word){
+                    return word.slice(0,1).toUpperCase() + word.slice(1).toLowerCase();
+            };
+
+            var arr = input.split(" ");
+            var newArr = [];
+            arr.forEach(function(word){
+                newArr.push(upperCaseWord(word))
+            });
+            return newArr.join(" ")
+        }
+
         var filter = self.filter();
+
         if (!filter){
             return self.restaurantList()
         } else {
+            filter = camelCaseAll(filter);
+
             return ko.utils.arrayFilter(self.restaurantList(), function(restaurant){
-                return (filter == restaurant.name())
+                return (restaurant.name().startsWith(filter))
             })
         }
     })
