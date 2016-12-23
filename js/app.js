@@ -167,8 +167,6 @@ function createRestaurant(restaurant){
         retrievedRestaurant.phone = phone;
 
 
-        retrievedRestaurants.push(retrievedRestaurant)
-
         modelRestaurants.push(new Restaurant(retrievedRestaurant))
 
     })
@@ -176,11 +174,13 @@ function createRestaurant(restaurant){
 }
 
 
-var retrievedRestaurants = [];
 var modelRestaurants = ko.observableArray([]);
+
+var singleRestaurant = ko.observable();
 
 
 function initMap(){
+
 
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.794, lng: -73.937},
@@ -188,10 +188,42 @@ function initMap(){
     });
 
 
+/*
     restaurants.forEach(function(restaurant){
-        createRestaurant(restaurant)
-        singleMarker(restaurant)
+        singleMarker(restaurant);
     });
+*/
+
+    createdMarkers = []
+
+    this.markersList = ko.computed(function(){
+
+        ko.utils.arrayForEach(allRestaurants(), function(restaurant){
+            createdMarkers.push(singleMarker(restaurant))
+        })
+
+        if (singleRestaurant() != undefined){
+            createdMarkers.forEach(function(marker){
+
+                if (marker.title.startsWith(singleRestaurant())){
+                    marker.setVisible(true);
+                } else {
+                    marker.setVisible(false);
+                }
+            })
+
+            if (singleRestaurant().length == 1){
+                createdMarkers.forEach(function(marker){
+                    marker.setVisible(true);
+                })
+            }
+
+        }
+
+
+
+
+    })
 
 
 
@@ -206,9 +238,9 @@ function initMap(){
         };
 
         var marker = new google.maps.Marker({
-                     position: restaurant.coordinates,
+                     position: restaurant.coordinates(),
                      map: map,
-                     title: restaurant.name,
+                     title: restaurant.name(),
                      animation: google.maps.Animation.DROP
                  });
 
@@ -217,9 +249,9 @@ function initMap(){
 
         var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
 
-        var res_name = contentString.replace("%RestaurantName%", restaurant.name)
-        var taco = res_name.replace("%TACO%", restaurant.favorite)
-        var summary = taco.replace("%SUMMARY%", restaurant.summary)
+        var res_name = contentString.replace("%RestaurantName%", restaurant.name());
+        var taco = res_name.replace("%TACO%", restaurant.favorite());
+        var summary = taco.replace("%SUMMARY%", restaurant.summary());
 
         var infowindow = new google.maps.InfoWindow({
             content: summary
@@ -241,6 +273,7 @@ function initMap(){
 
 
 
+
     function createMarkers(restaurant_list){
         var markers = []
 
@@ -254,6 +287,7 @@ function initMap(){
 }
 
 
+var allRestaurants = ko.observableArray([]);
 
 
 
@@ -261,12 +295,13 @@ var ViewModel = function(){
 
     var self = this;
 
+    restaurants.forEach(function(restaurant){
+        createRestaurant(restaurant)
+        //singleMarker(restaurant)
+    });
+
+
     this.restaurantList = modelRestaurants;
-
-    self.restaurantList().forEach(function(thing){
-        console.log(thing())
-    })
-
 
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked)
@@ -279,39 +314,43 @@ var ViewModel = function(){
 
     this.filteredList = ko.computed(function(){
 
-        function camelCaseAll(input){
-
-            function upperCaseWord(word){
-                    return word.slice(0,1).toUpperCase() + word.slice(1).toLowerCase();
-            };
-
-            var arr = input.split(" ");
-            var newArr = [];
-            arr.forEach(function(word){
-                newArr.push(upperCaseWord(word))
-            });
-            return newArr.join(" ")
-        }
-
         var filter = self.filter();
 
         if (!filter){
-            return self.restaurantList()
+            return self.restaurantList();
         } else {
+
+
+            function camelCaseAll(input){
+
+                var arr = input.split(" ");
+
+                var newArr = [];
+
+                function upperCaseWord(word){
+                        return word.slice(0,1).toUpperCase() + word.slice(1).toLowerCase();
+                };
+
+                arr.forEach(function(word){
+                    newArr.push(upperCaseWord(word))
+                });
+
+                return newArr.join(" ")
+            }
+
+
             filter = camelCaseAll(filter);
 
             return ko.utils.arrayFilter(self.restaurantList(), function(restaurant){
-                return (restaurant.name().startsWith(filter))
-            })
+                singleRestaurant = ko.observable(filter);
+                return restaurant.name().startsWith(filter);
+            });
         }
-    })
+    });
 
 
-}
-
+    allRestaurants = self.filteredList;
+};
 
 
 ko.applyBindings(new ViewModel())
-
-
-/*  From Google Maps API Documentation */
