@@ -71,6 +71,7 @@ var Restaurant = function(data){
 
 
 
+
 function createRestaurant(restaurant){
     var retrievedRestaurant = {
         name: restaurant.name,
@@ -78,7 +79,6 @@ function createRestaurant(restaurant){
         favorite: restaurant.favorite,
         summary: restaurant.summary
     };
-
 
     /* ajax function  need to pass through callback */
     function getAjax(restaurant_name, callback){
@@ -102,9 +102,7 @@ function createRestaurant(restaurant){
             return year + month + day
         }
 
-
         /*  Builds URL string for ajax call */
-
         var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
 
         var coordinates = "40.793,-73.941"
@@ -144,7 +142,6 @@ function createRestaurant(restaurant){
 
             }
         })
-
     }
 
 
@@ -166,17 +163,18 @@ function createRestaurant(restaurant){
         var phone = data.contact.formattedPhone;
         retrievedRestaurant.phone = phone;
 
-
         modelRestaurants.push(new Restaurant(retrievedRestaurant))
 
     })
-
 }
+
 
 
 var modelRestaurants = ko.observableArray([]);
 
 var singleRestaurant = ko.observable();
+
+var currentRes = ko.observable();
 
 
 function initMap(){
@@ -188,11 +186,16 @@ function initMap(){
     });
 
 
-/*
-    restaurants.forEach(function(restaurant){
-        singleMarker(restaurant);
-    });
-*/
+    this.selectedRestaurant = ko.computed(function(){
+        if (currentRes()){
+            var currentRestaurantName = currentRes().name();
+            createdMarkers.forEach(function(restaurant){
+                if (currentRestaurantName == restaurant.title){
+                    restaurant.setAnimation(google.maps.Animation.BOUNCE)
+                }
+            })
+        }
+    })
 
     createdMarkers = []
 
@@ -202,29 +205,26 @@ function initMap(){
             createdMarkers.push(singleMarker(restaurant))
         })
 
+
         if (singleRestaurant() != undefined){
             createdMarkers.forEach(function(marker){
-
-                if (marker.title.startsWith(singleRestaurant())){
-                    marker.setVisible(true);
-                } else {
+                if (!marker.title.startsWith(singleRestaurant())){
                     marker.setVisible(false);
+                } else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE)
                 }
             })
+
 
             if (singleRestaurant().length == 1){
                 createdMarkers.forEach(function(marker){
                     marker.setVisible(true);
+                    marker.setAnimation(null)
                 })
             }
-
         }
 
-
-
-
     })
-
 
 
     function singleMarker(restaurant){
@@ -271,19 +271,6 @@ function initMap(){
         return marker
     }
 
-
-
-
-    function createMarkers(restaurant_list){
-        var markers = []
-
-        restaurant_list.forEach(function(restaurant){
-            markers.push(singleMarker(restaurant))
-        })
-
-        return markers
-    }
-
 }
 
 
@@ -292,14 +279,11 @@ var allRestaurants = ko.observableArray([]);
 
 
 var ViewModel = function(){
-
     var self = this;
 
     restaurants.forEach(function(restaurant){
         createRestaurant(restaurant)
-        //singleMarker(restaurant)
     });
-
 
     this.restaurantList = modelRestaurants;
 
@@ -309,22 +293,18 @@ var ViewModel = function(){
 
     this.currentRestaurant = ko.observable( self.restaurantList[0] );
 
+    currentRes = self.currentRestaurant;
+
     this.filter = ko.observable();
 
-
     this.filteredList = ko.computed(function(){
-
         var filter = self.filter();
-
         if (!filter){
             return self.restaurantList();
         } else {
 
-
             function camelCaseAll(input){
-
                 var arr = input.split(" ");
-
                 var newArr = [];
 
                 function upperCaseWord(word){
@@ -347,7 +327,6 @@ var ViewModel = function(){
             });
         }
     });
-
 
     allRestaurants = self.filteredList;
 };
