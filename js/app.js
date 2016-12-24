@@ -30,7 +30,7 @@ var restaurants = [
         favorite: "Pollo Taco",
         summary: "Pretty good food."
     },
-    /*  DOESN'T Load    */
+
     {
         name: "Lupita's",
         coordinates: {lat: 40.79014530307375, lng: -73.942862034803},
@@ -172,13 +172,14 @@ function createRestaurant(restaurant){
 
 var modelRestaurants = ko.observableArray([]);
 
-var singleRestaurant = ko.observable();
+
 
 var currentRes = ko.observable();
 
 
-function initMap(){
 
+
+function initMap(){
 
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.794, lng: -73.937},
@@ -199,16 +200,16 @@ function initMap(){
 
     createdMarkers = []
 
+    restaurants.forEach(function(restaurant){
+        createdMarkers.push(singleMarker(restaurant))
+    })
+
     this.markersList = ko.computed(function(){
-
-        ko.utils.arrayForEach(allRestaurants(), function(restaurant){
-            createdMarkers.push(singleMarker(restaurant))
-        })
-
-
-        if (singleRestaurant() != undefined){
+        if (singleRestaurant.name()){
+            console.log(singleRestaurant.name())
             createdMarkers.forEach(function(marker){
-                if (!marker.title.startsWith(singleRestaurant())){
+                console.log('yes')
+                if (!marker.title.startsWith(singleRestaurant.name())){
                     marker.setVisible(false);
                 } else {
                     marker.setAnimation(google.maps.Animation.BOUNCE)
@@ -216,12 +217,14 @@ function initMap(){
             })
 
 
-            if (singleRestaurant().length == 1){
+            if (singleRestaurant.name().length == 1){
                 createdMarkers.forEach(function(marker){
                     marker.setVisible(true);
                     marker.setAnimation(null)
                 })
             }
+
+
         }
 
     })
@@ -238,9 +241,9 @@ function initMap(){
         };
 
         var marker = new google.maps.Marker({
-                     position: restaurant.coordinates(),
+                     position: restaurant.coordinates,
                      map: map,
-                     title: restaurant.name(),
+                     title: restaurant.name,
                      animation: google.maps.Animation.DROP
                  });
 
@@ -249,9 +252,9 @@ function initMap(){
 
         var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
 
-        var res_name = contentString.replace("%RestaurantName%", restaurant.name());
-        var taco = res_name.replace("%TACO%", restaurant.favorite());
-        var summary = taco.replace("%SUMMARY%", restaurant.summary());
+        var res_name = contentString.replace("%RestaurantName%", restaurant.name);
+        var taco = res_name.replace("%TACO%", restaurant.favorite);
+        var summary = taco.replace("%SUMMARY%", restaurant.summary);
 
         var infowindow = new google.maps.InfoWindow({
             content: summary
@@ -275,8 +278,9 @@ function initMap(){
 
 
 var allRestaurants = ko.observableArray([]);
-
-
+var singleRestaurant = {
+    name: ko.observable('')
+};
 
 var ViewModel = function(){
     var self = this;
@@ -322,7 +326,7 @@ var ViewModel = function(){
             filter = camelCaseAll(filter);
 
             return ko.utils.arrayFilter(self.restaurantList(), function(restaurant){
-                singleRestaurant = ko.observable(filter);
+                singleRestaurant.name(filter);
                 return restaurant.name().startsWith(filter);
             });
         }
