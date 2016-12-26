@@ -110,7 +110,7 @@ function singleMarker(restaurant, map){
         };
     };
 
-    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RESTAURANT_NAME%</b></h1><div id='restaurant_info'><p>%ADDRESS%</p><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p><p><a href='%MENU%' target='_blank'>Menu</a></p><p><a href='%DELIVERY%' target='_blank'>GET DELIVERY</a></p></div></div>";
+    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RESTAURANT_NAME%</b></h1><div id='restaurant_info'><p>%ADDRESS%</p><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p><p><a href='%MENU%' target='_blank'>Menu</a></p><p><a href='%DELIVERY%' target='_blank'>%GET_DELIVERY%</a></p></div></div>";
 
 
     var replacing = {
@@ -123,34 +123,27 @@ function singleMarker(restaurant, map){
         "DELIVERY": restaurant.delivery
     };
 
-    function generateReplacementContent(){
-        var finalString = contentString;
-        for (target in replacing){
-            if (!ifNotDefined(target)){
-
-            }
-            var replacementString = "%" + replacing[target] + "%";
-            finalString = replaceContent(finalString, target, replacementString)
-        }
-        return finalString
-    }
 
     function replaceContent(string, target, replacement){
         return string.replace(target, replacement)
     }
 
 
-    function ifNotDefined(target){
+    function ifNotDefined(target, replacing){
         var noResponse = ['PHONE', 'MENU', 'DELIVERY'];
-        if (noResponse.includes(target)){
-            return ''
-        } else {
-            return false;
+        var returnString = '';
+        if (!noResponse.includes(target)){
+            returnString = replacing[target];
         }
+        return returnString
     }
 
-    console.log(generateReplacementContent())
+    var res_name = replaceContent(contentString, "%RESTAURANT_NAME%",
+                   restaurant.name);
+    var taco = replaceContent(res_name, "%TACO%", restaurant.favorite);
+    var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary); 
 
+/*
     var res_name = contentString.replace("%RESTAURANT_NAME%", restaurant.name);
     var taco = res_name.replace("%TACO%", restaurant.favorite);
     var summary = taco.replace("%SUMMARY%", restaurant.summary);
@@ -175,8 +168,10 @@ function singleMarker(restaurant, map){
         delivery = menu.replace("%DELIVERY%", '')
     };
 
+    */
+
     var infowindow = new google.maps.InfoWindow({
-        content: delivery,
+        //content: delivery,
         title: restaurant.name
     });
 
