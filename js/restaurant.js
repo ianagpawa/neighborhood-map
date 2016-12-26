@@ -65,14 +65,14 @@ var restaurants = [
     {
         name: "Ollin",
         coordinates: {lat: 40.791111156036116, lng: -73.93960723430115},
-        favorite: "Pollo Taco",
-        summary: "Pretty good food."
+        favorite: "Lengua Taco",
+        summary: "Pretty good food, good offerings, authentic tacos."
     },
 
     {
         name: "Lupita's",
         coordinates: {lat: 40.79014530307375, lng: -73.942862034803},
-        favorite: 'Lengua Taco',
+        favorite: 'Pollo Taco',
         summary: "Ok tacos, not bad."
     },
     {

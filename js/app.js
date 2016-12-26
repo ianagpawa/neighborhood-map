@@ -1,7 +1,5 @@
 
 
-
-
 function createRestaurant(restaurant){
     var retrievedRestaurant = {
         name: restaurant.name,
@@ -51,14 +49,23 @@ function createRestaurant(restaurant){
 
         var limit = "&limit=1"
 
-        var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%", CLIENT_ID)
-        var client_secret = "&client_secret=%CLIENT_SECRET%".replace("%CLIENT_SECRET%", CLIENT_SECRET)
+        var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%",
+                        CLIENT_ID)
+        var client_secret = "&client_secret=%CLIENT_SECRET%".replace(
+                            "%CLIENT_SECRET%", CLIENT_SECRET);
 
         var currentDate = getCurrentDate();
-        var version = "&v=%DATE%".replace("%DATE%", currentDate)
+        var version = "&v=%DATE%".replace("%DATE%", currentDate);
 
         /*  Finied url  */
-        var url = urlStart + coordinates + restaurantName + city + limit + client_id + client_secret + version
+        var url = urlStart +
+                  coordinates +
+                  restaurantName +
+                  city +
+                  limit +
+                  client_id +
+                  client_secret +
+                  version;
 
 
         $.ajax({
@@ -110,7 +117,22 @@ function singleMarker(restaurant, map){
         };
     };
 
-    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RESTAURANT_NAME%</b></h1><div id='restaurant_info'><p>%ADDRESS%</p><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p><p><a href='%MENU%' target='_blank'>Menu</a></p><p><a href='%DELIVERY%' target='_blank'>%GET_DELIVERY%</a></p></div></div>";
+    var contentString = "<div class='text-center' id='content>" +
+                        "<h1 id='restaurant_name' class='firstHeading'>"+
+                        "<b>%RESTAURANT_NAME%</b>"+
+                        "</h1>"+
+                        "<div id='restaurant_info'>"+
+                        "<p>%ADDRESS%</p>"+
+                        "<p>%PHONE%</p>"+
+                        "<p>%SUMMARY%</p>"+
+                        "<p>Favorite Taco: %TACO%</p>"+
+                        "<p>"+
+                        "<a href='%MENU%' target='_blank'>%SEE_MENU%</a>"+
+                        "</p>"+
+                        "<p>"+
+                        "<a href='%DELIVERY%' target='_blank'>"+
+                        "%GET_DELIVERY%"+
+                        "</a></p></div></div>";
 
 
     var replacing = {
@@ -129,49 +151,42 @@ function singleMarker(restaurant, map){
     }
 
 
-    function ifNotDefined(target, replacing){
-        var noResponse = ['PHONE', 'MENU', 'DELIVERY'];
-        var returnString = '';
-        if (!noResponse.includes(target)){
-            returnString = replacing[target];
-        }
-        return returnString
-    }
-
     var res_name = replaceContent(contentString, "%RESTAURANT_NAME%",
                    restaurant.name);
     var taco = replaceContent(res_name, "%TACO%", restaurant.favorite);
-    var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary); 
+    var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary);
 
-/*
-    var res_name = contentString.replace("%RESTAURANT_NAME%", restaurant.name);
-    var taco = res_name.replace("%TACO%", restaurant.favorite);
-    var summary = taco.replace("%SUMMARY%", restaurant.summary);
+    var phone;
     if (restaurant.phone){
-
-    }
-    var phone = summary.replace("%PHONE%", restaurant.phone);
-    var address = phone.replace("%ADDRESS%", restaurant.address);
-    var menu;
-    var delivery;
-
-
-    if (restaurant.menu){
-        menu = address.replace("%MENU%", restaurant.menu)
+        phone = replaceContent(summary, "%PHONE%", restaurant.phone);
     } else {
-        menu = address.replace("%MENU%", "");
-    }
-
-    if (restaurant.delivery){
-        delivery = menu.replace("%DELIVERY%", restaurant.delivery)
-    } else {
-        delivery = menu.replace("%DELIVERY%", '')
+        phone = replaceContent(summary, "%PHONE%", '');
     };
 
-    */
+    var address = replaceContent(phone, "%ADDRESS%", restaurant.address);
+
+    var labelMenu;
+
+    if (restaurant.menu){
+        labelMenu = replaceContent(address, "%SEE_MENU%", "See Menu");
+    } else {
+        labelMenu = replaceContent(address, "%SEE_MENU%", "");
+    }
+
+    var menu = replaceContent(labelMenu, "%MENU%", restaurant.menu);
+
+    var labelDelivery;
+    if (restaurant.delivery){
+        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "Get Delivery");
+    } else {
+        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "");
+    }
+
+    var delivery = replaceContent(labelDelivery, "%DELIVERY%",
+                   restaurant.delivery)
 
     var infowindow = new google.maps.InfoWindow({
-        //content: delivery,
+        content: delivery,
         title: restaurant.name
     });
 
@@ -217,6 +232,7 @@ var singleRestaurant = {
     name: ko.observable('')
 };
 
+
 var ViewModel = function(){
     var self = this;
 
@@ -247,7 +263,8 @@ var ViewModel = function(){
                 var newArr = [];
 
                 function upperCaseWord(word){
-                        return word.slice(0,1).toUpperCase() + word.slice(1).toLowerCase();
+                        return word.slice(0,1).toUpperCase() +
+                               word.slice(1).toLowerCase();
                 };
 
                 arr.forEach(function(word){
@@ -260,9 +277,10 @@ var ViewModel = function(){
 
             filter = camelCaseAll(filter);
 
-            return ko.utils.arrayFilter(self.restaurantList(), function(restaurant){
-                singleRestaurant.name(filter);
-                return restaurant.name().startsWith(filter);
+            return ko.utils.arrayFilter(self.restaurantList(),
+                function(restaurant){
+                    singleRestaurant.name(filter);
+                    return restaurant.name().startsWith(filter);
             });
         }
     });
