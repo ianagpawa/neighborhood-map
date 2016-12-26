@@ -100,8 +100,6 @@ function createRestaurant(restaurant){
     })
 }
 
-var map;
-
 function singleMarker(restaurant, map){
     /*  From Google MAP API documentation   */
     function toggleBounce() {
@@ -112,14 +110,73 @@ function singleMarker(restaurant, map){
         };
     };
 
-    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
+    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RESTAURANT_NAME%</b></h1><div id='restaurant_info'><p>%ADDRESS%</p><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p><p><a href='%MENU%' target='_blank'>Menu</a></p><p><a href='%DELIVERY%' target='_blank'>GET DELIVERY</a></p></div></div>";
 
-    var res_name = contentString.replace("%RestaurantName%", restaurant.name);
+
+    var replacing = {
+        'RESTAURANT_NAME': restaurant.name,
+        'TACO': restaurant.favorite,
+        'SUMMARY': restaurant.summary,
+        'PHONE': restaurant.phone,
+        "ADDRESS": restaurant.name,
+        "MENU": restaurant.menu,
+        "DELIVERY": restaurant.delivery
+    };
+
+    function generateReplacementContent(){
+        var finalString = contentString;
+        for (target in replacing){
+            if (!ifNotDefined(target)){
+
+            }
+            var replacementString = "%" + replacing[target] + "%";
+            finalString = replaceContent(finalString, target, replacementString)
+        }
+        return finalString
+    }
+
+    function replaceContent(string, target, replacement){
+        return string.replace(target, replacement)
+    }
+
+
+    function ifNotDefined(target){
+        var noResponse = ['PHONE', 'MENU', 'DELIVERY'];
+        if (noResponse.includes(target)){
+            return ''
+        } else {
+            return false;
+        }
+    }
+
+    console.log(generateReplacementContent())
+
+    var res_name = contentString.replace("%RESTAURANT_NAME%", restaurant.name);
     var taco = res_name.replace("%TACO%", restaurant.favorite);
     var summary = taco.replace("%SUMMARY%", restaurant.summary);
+    if (restaurant.phone){
+
+    }
     var phone = summary.replace("%PHONE%", restaurant.phone);
+    var address = phone.replace("%ADDRESS%", restaurant.address);
+    var menu;
+    var delivery;
+
+
+    if (restaurant.menu){
+        menu = address.replace("%MENU%", restaurant.menu)
+    } else {
+        menu = address.replace("%MENU%", "");
+    }
+
+    if (restaurant.delivery){
+        delivery = menu.replace("%DELIVERY%", restaurant.delivery)
+    } else {
+        delivery = menu.replace("%DELIVERY%", '')
+    };
+
     var infowindow = new google.maps.InfoWindow({
-        content: phone,
+        content: delivery,
         title: restaurant.name
     });
 

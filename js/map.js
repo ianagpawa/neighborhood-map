@@ -1,6 +1,8 @@
+var map;
 
 
 function initMap(){
+    var self = this;
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.794, lng: -73.937},
@@ -19,16 +21,8 @@ function initMap(){
             })
         }
     })
-    var self = this;
 
-    var createdMarkers = retrievedRestaurants
-
-/*
-    restaurants.forEach(function(restaurant){
-        createdMarkers.push(singleMarker(restaurant));
-    })
-*/
-
+    var createdMarkers = retrievedRestaurants;
 
 
     this.markersList = ko.computed(function(){
