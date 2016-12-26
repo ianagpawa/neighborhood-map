@@ -6,7 +6,10 @@
     <meta name="author" content="Ian Agpawa">
     <meta name="description" content="A place to find tacos in Spanish Harlem.">
     <title>TacoHub</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -14,20 +17,26 @@
         <div class='text-center'>
             <h1>TacoHub</h1>
             <h3>Spanish Harlem's Finest Tacos</h3>
+            <p></p>
         </div>
         <div class='container-fluid'>
             <div class="dropdown col-md-1">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <button class="btn btn-default dropdown-toggle" type="button"
+                    id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
                 Restaurants
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <li>
-                        <input data-bind="value: filter, valueUpdate: 'keyup'"/>
+                        <input
+                            data-bind="value: filter, valueUpdate: 'keyup'"/>
                     </li>
                     <div class="dropdown-divider"></div>
                     <div data-bind="foreach: filteredList"s>
-                        <li class='dropdown-li text-center' data-bind="click: $parent.getCurrentRestaurant, text: name"></li>
+                        <li class='dropdown-li text-center'
+                            data-bind="click: $parent.getCurrentRestaurant, text: name">
+                        </li>
                     </div>
               </ul>
             </div>
@@ -40,43 +49,16 @@
     </div>
 
 
-<div class='text-center' id="restaurant_content" data-bind='with: currentRestaurant'>
-
-    <h1 id="restaurant_name"
-        class="firstHeading"
-        data-bind="text: name">
-    </h1>
-    <div id="restaurant_info">
-        <p data-bind="text: address"></p>
-        <p data-bind="text: phone"></p>
-        <p>Favorite: <span data-bind="text: favorite"></span></p>
-        <p data-bind="text: summary"></p>
-        <p data-bind='if: menu'>
-            <a target="_blank" data-bind="attr: {href: menu}">
-                Menu
-            </a>
-        </p>
-        <p data-bind='if: delivery'>
-            <a target="_blank" data-bind="attr: {href: delivery}">
-                ORDER NOW!
-            </a>
-        </p>
-
-    </div>
-</div>
-
 
     <script src="js/lib/jquery-3.1.1.min.js"></script>
     <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
     </script>
     <script src="js/lib/knockout-3.4.1.js"></script>
-
     <script src="js/secrets.js"></script>
     <script src="js/restaurant.js"></script>
     <script src="js/app.js"></script>
     <script src="js/map.js"></script>
-
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCjgpb2KA-b3SXVQWPLtHEk_CurgfXLo&callback=initMap">
     </script>

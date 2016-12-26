@@ -135,17 +135,6 @@ function singleMarker(restaurant, map){
                         "</a></p></div></div>";
 
 
-    var replacing = {
-        'RESTAURANT_NAME': restaurant.name,
-        'TACO': restaurant.favorite,
-        'SUMMARY': restaurant.summary,
-        'PHONE': restaurant.phone,
-        "ADDRESS": restaurant.name,
-        "MENU": restaurant.menu,
-        "DELIVERY": restaurant.delivery
-    };
-
-
     function replaceContent(string, target, replacement){
         return string.replace(target, replacement)
     }
@@ -184,6 +173,7 @@ function singleMarker(restaurant, map){
 
     var delivery = replaceContent(labelDelivery, "%DELIVERY%",
                    restaurant.delivery)
+
 
     var infowindow = new google.maps.InfoWindow({
         content: delivery,
