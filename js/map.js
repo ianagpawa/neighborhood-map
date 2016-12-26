@@ -1,6 +1,5 @@
 var map;
 
-
 function initMap(){
     var self = this;
 
