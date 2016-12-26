@@ -93,10 +93,63 @@ function createRestaurant(restaurant){
         var phone = data.contact.formattedPhone;
         retrievedRestaurant.phone = phone;
 
+        retrievedRestaurants.push(singleMarker(retrievedRestaurant, map))
+
         modelRestaurants.push(new Restaurant(retrievedRestaurant))
 
     })
 }
+
+var map;
+
+function singleMarker(restaurant, map){
+    /*  From Google MAP API documentation   */
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        };
+    };
+
+    var contentString = "<div class='text-center' id='content><h1 id='restaurant_name' class='firstHeading'><b>%RestaurantName%</b></h1><div id='restaurant_info'><p>%PHONE%</p><p>%SUMMARY%</p><p>Favorite Taco: %TACO%</p></div></div>";
+
+    var res_name = contentString.replace("%RestaurantName%", restaurant.name);
+    var taco = res_name.replace("%TACO%", restaurant.favorite);
+    var summary = taco.replace("%SUMMARY%", restaurant.summary);
+    var phone = summary.replace("%PHONE%", restaurant.phone);
+    var infowindow = new google.maps.InfoWindow({
+        content: phone,
+        title: restaurant.name
+    });
+
+
+    infowindow.addListener("closeclick", function(){
+        marker.setAnimation(null);
+    })
+
+    var marker = new google.maps.Marker({
+                position: restaurant.coordinates,
+                map: map,
+                title: restaurant.name,
+                animation: google.maps.Animation.DROP,
+                info: infowindow
+             });
+
+    marker.addListener('click', toggleBounce);
+
+
+
+    marker.addListener('click', function(){
+        infowindow.open(map, marker);
+     });
+
+
+    return marker
+}
+
+
+var retrievedRestaurants = [];
 
 
 
