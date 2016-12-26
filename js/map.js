@@ -17,9 +17,9 @@ function initMap(){
                 if (currentRestaurantName == restaurant.title){
                     restaurant.setAnimation(google.maps.Animation.BOUNCE);
                 }
-            })
-        }
-    })
+            });
+        };
+    });
 
     var createdMarkers = retrievedRestaurants;
 
@@ -33,7 +33,7 @@ function initMap(){
                 } else {
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
-            })
+            });
 
 
             if (singleRestaurant.name().length < 2){
@@ -41,14 +41,8 @@ function initMap(){
                     marker.setVisible(true);
                     marker.setAnimation(null);
                     (marker.info).close(map, marker)
-                })
-            }
-
-        }
-
-    })
-
-
-
-
-}
+                });
+            };
+        };
+    });
+};

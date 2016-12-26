@@ -1,8 +1,6 @@
 /**
 *  Houses Restaurant object template and restaurants array.
 */
-
-
 var Restaurant = function(data){
     /*
     * Creates restaurant object.  Restaurant info will be retrieved from
@@ -28,9 +26,6 @@ var Restaurant = function(data){
     this.summary = ko.observable(data.summary);
     this.phone = ko.observable(data.phone);
 };
-
-
-
 
 
 var restaurants = [

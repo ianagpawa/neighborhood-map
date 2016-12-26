@@ -10,10 +10,6 @@ html, body {
   padding: 0;
 }
 
-.dropdown-li{
-
-}
-
 .dropdown-li:hover{
     background-color: black;
     color: white;

@@ -1,5 +1,4 @@
 
-
 function createRestaurant(restaurant){
     var retrievedRestaurant = {
         name: restaurant.name,
