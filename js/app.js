@@ -135,9 +135,11 @@ var singleRestaurant = {
 };
 
 
+/**
+* @description Creates ViewModel for knockout binding
+*/
 var ViewModel = function(){
     var self = this;
-
     /**
     * @description Creates restaurant instances from restaurant list
     */
