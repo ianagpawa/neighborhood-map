@@ -1,21 +1,13 @@
 /**
-*  Houses Restaurant object template and restaurants array.
+* @description Represents a restaurant
+* @constructor
+* @param {object} restaurant object with restaurant name, GPS
+* coordinates, Foursquare restaurant ID, address, url link to menu,
+* url link to seamless, favorite taco, personal review summary, and phone
+*number.
 */
 var Restaurant = function(data){
-    /*
-    * Creates restaurant object.  Restaurant info will be retrieved from
-    *   Foursquare API.
-    * @name str Name of restaurant.
-    * @coordinates obj Object of restaurant latitutde and longitute
-    *   coordinates. e.g. {lat: int, lng: int}.
-    * @id str Restaurant Foursquare ID number.
-    * @address str Restaurant street address.
-    * @menu url Restaurant menu url address,directs to Foursquare menu.
-    * @delivery url Seamless restaurant url.
-    * @favorite str Favorite taco from restaurant.
-    * @summary str Personal resview of restaurant.
-    * @phone str Restaurant phone number
-    */
+
     this.name = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.id = ko.observable(data.id);
@@ -27,12 +19,11 @@ var Restaurant = function(data){
     this.phone = ko.observable(data.phone);
 };
 
-
+/*
+* Array of restaurant objects.  Objects will be used to retrieved info
+*   from Foursquare API
+*/
 var restaurants = [
-    /*
-    * Array of restaurant objects.  Objects will be used to retrieved info
-    *   from Foursquare API
-    */
     {
         name: 'El Paso Mexicano',
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
@@ -81,6 +72,5 @@ var restaurants = [
         coordinates: {lat: 40.79402106079923, lng: -73.94332126150972},
         favorite: 'Chorizo Taco',
         summary: "Meh.  There are better places to eat better food.  Last resort tacos."
-
     }
 ];

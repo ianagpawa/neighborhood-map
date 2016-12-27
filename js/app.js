@@ -1,4 +1,9 @@
-
+/**
+* @description Retrieves restaurant info from Foursquare API,
+*   creates restaurant object.
+* @param {object} restaurant object
+* @returns {none} Adds restaurant object to retrievedRestaurants array, and to modelRestaurants array.  
+*/
 function createRestaurant(restaurant){
     var retrievedRestaurant = {
         name: restaurant.name,
