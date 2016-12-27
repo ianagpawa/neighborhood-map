@@ -1,8 +1,10 @@
 /**
 * @description Retrieves restaurant info from Foursquare API,
 *   creates restaurant object.
-* @param {object} restaurant object
-* @returns {none} Adds restaurant object to retrievedRestaurants array, and to modelRestaurants array.  
+* @param {object} restaurant Restaurant info from restaurants array
+* @returns {none} none Restaurant object used to create Google Maps marker
+*   and pushed to retrievedRestaurants array.  Restaurant info used to
+*   create instance of Restaurant model and pushed  to modelRestaurants array.
 */
 function createRestaurant(restaurant){
     var retrievedRestaurant = {
@@ -12,15 +14,29 @@ function createRestaurant(restaurant){
         summary: restaurant.summary
     };
 
-    /* ajax function  need to pass through callback */
+    /**
+    * @description Ajax call to retrieve restaurant info from Foursquare
+    * @param {string} restaurant_name Restaurant name
+    * @param {function} callback Callback function for handling ajax response
+    *   data
+    * @returns {object} response Retrieved restaurant info
+    */
     function getAjax(restaurant_name, callback){
 
+        /**
+        * @description Creates current date, needed for Foursquare ajax
+        *   call
+        * @returns {string} date Current date string
+        */
         function getCurrentDate(){
             var today = new Date();
             var day = today.getDate();
             var month = today.getMonth() + 1;
             var year = today.getFullYear().toString();
 
+            /**
+            * @description Adds a zero to month or day.
+            */
             function addZero(n){
                 if (n < 10) {
                     n = '0' + n
@@ -39,6 +55,11 @@ function createRestaurant(restaurant){
         var coordinates = "40.793,-73.941"
         var query = "&query=%RESTAURANT_NAME%";
 
+        /**
+        * @description Formats name of restaurant
+        * @param {string} restaurant_name
+        * @returns {string} Formatted restaurant name
+        */
         function formatName(restaurant_name){
             var name_array = restaurant_name.split(" ");
             return name_array.join("%20")
@@ -85,7 +106,7 @@ function createRestaurant(restaurant){
         retrievedRestaurant.id = id;
 
         var address = data.location.formattedAddress[0];
-        retrievedRestaurant.address = address
+        retrievedRestaurant.address = address;
 
         if (data.hasMenu){
             menu = data.menu.url;
@@ -98,9 +119,8 @@ function createRestaurant(restaurant){
         var phone = data.contact.formattedPhone;
         retrievedRestaurant.phone = phone;
 
-        retrievedRestaurants.push(singleMarker(retrievedRestaurant, map))
-
-        modelRestaurants.push(new Restaurant(retrievedRestaurant))
+        retrievedRestaurants.push(singleMarker(retrievedRestaurant, map));
+        modelRestaurants.push(new Restaurant(retrievedRestaurant));
 
     })
 }
@@ -118,12 +138,18 @@ var singleRestaurant = {
 var ViewModel = function(){
     var self = this;
 
+    /**
+    * @description Creates restaurant instances from restaurant list
+    */
     restaurants.forEach(function(restaurant){
         createRestaurant(restaurant)
     });
 
     this.restaurantList = modelRestaurants;
 
+    /**
+    * @description Selects restaurant from list.
+    */
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked)
     }
@@ -133,13 +159,19 @@ var ViewModel = function(){
     currentRes = self.currentRestaurant;
 
     this.filter = ko.observable();
-
+    /**
+    * @description Filters restaurant list.
+    */
     this.filteredList = ko.computed(function(){
         var filter = self.filter();
         if (!filter){
             return self.restaurantList();
         } else {
 
+            /**
+            * @description Transforms input from filter into camelcase
+            * @param {string} input Input from filtered text
+            */
             function camelCaseAll(input){
                 var arr = input.split(" ");
                 var newArr = [];
@@ -147,13 +179,13 @@ var ViewModel = function(){
                 function upperCaseWord(word){
                         return word.slice(0,1).toUpperCase() +
                                word.slice(1).toLowerCase();
-                };
+                }
 
                 arr.forEach(function(word){
-                    newArr.push(upperCaseWord(word))
-                });
+                    newArr.push(upperCaseWord(word));
+                })
 
-                return newArr.join(" ")
+                return newArr.join(" ");
             }
 
 
@@ -163,12 +195,12 @@ var ViewModel = function(){
                 function(restaurant){
                     singleRestaurant.name(filter);
                     return restaurant.name().startsWith(filter);
-            });
+            })
         }
-    });
+    })
 
     allRestaurants = self.filteredList;
-};
+}
 
 
 ko.applyBindings(new ViewModel())

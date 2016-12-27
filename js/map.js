@@ -5,7 +5,6 @@
 * @param {object} map Instance of Google map.
 * @returns {object} marker Google Map marker
 */
-
 function singleMarker(restaurant, map){
     /*  From Google MAP API documentation   */
     /**
@@ -17,7 +16,7 @@ function singleMarker(restaurant, map){
         } else {
             marker.setAnimation(google.maps.Animation.BOUNCE);
         }
-    };
+    }
 
     var contentString = "<div class='text-center' id='content>" +
                         "<h1 id='restaurant_name' class='firstHeading'>"+
@@ -35,7 +34,6 @@ function singleMarker(restaurant, map){
                         "<a href='%DELIVERY%' target='_blank'>"+
                         "%GET_DELIVERY%"+
                         "</a></p></div></div>";
-
     /**
     * @description Modifies contentString with restaurant info.
     * @param {string} string Content string

@@ -7,7 +7,6 @@
 *number.
 */
 var Restaurant = function(data){
-
     this.name = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.id = ko.observable(data.id);
@@ -17,7 +16,7 @@ var Restaurant = function(data){
     this.favorite = ko.observable(data.favorite);
     this.summary = ko.observable(data.summary);
     this.phone = ko.observable(data.phone);
-};
+}
 
 /*
 * Array of restaurant objects.  Objects will be used to retrieved info
