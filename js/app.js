@@ -21,19 +21,17 @@ function createRestaurant(restaurant){
                     n = '0' + n
                 }
                 return n.toString()
-            }
+            };
 
             day = addZero(day);
             month = addZero(month);
 
             return year + month + day
-        }
+        };
 
         /*  Builds URL string for ajax call */
         var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
-
         var coordinates = "40.793,-73.941"
-
         var query = "&query=%RESTAURANT_NAME%";
 
         function formatName(restaurant_name){
@@ -43,16 +41,12 @@ function createRestaurant(restaurant){
 
         var formattedName = formatName(restaurant_name);
         var restaurantName = query.replace("%RESTAURANT_NAME%", formattedName)
-
         var city = "&near=New%20York,NY"
-
         var limit = "&limit=1"
-
         var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%",
                         CLIENT_ID)
         var client_secret = "&client_secret=%CLIENT_SECRET%".replace(
                             "%CLIENT_SECRET%", CLIENT_SECRET);
-
         var currentDate = getCurrentDate();
         var version = "&v=%DATE%".replace("%DATE%", currentDate);
 
@@ -74,11 +68,11 @@ function createRestaurant(restaurant){
                 data = foursquare.response.venues[0];
                 callback(data)
             },
-            error: function(){
-
+            error: function(error){
+                alert('Something went wrong with Foursquare!');
             }
-        })
-    }
+        });
+    };
 
 
     getAjax(retrievedRestaurant.name, function(data){
@@ -106,117 +100,11 @@ function createRestaurant(restaurant){
     })
 }
 
-function singleMarker(restaurant, map){
-    /*  From Google MAP API documentation   */
-    function toggleBounce() {
-        if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-        } else {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-        };
-    };
-
-    var contentString = "<div class='text-center' id='content>" +
-                        "<h1 id='restaurant_name' class='firstHeading'>"+
-                        "<b>%RESTAURANT_NAME%</b>"+
-                        "</h1>"+
-                        "<div id='restaurant_info'>"+
-                        "<p>%ADDRESS%</p>"+
-                        "<p>%PHONE%</p>"+
-                        "<p>%SUMMARY%</p>"+
-                        "<p>Favorite Taco: %TACO%</p>"+
-                        "<p>"+
-                        "<a href='%MENU%' target='_blank'>%SEE_MENU%</a>"+
-                        "</p>"+
-                        "<p>"+
-                        "<a href='%DELIVERY%' target='_blank'>"+
-                        "%GET_DELIVERY%"+
-                        "</a></p></div></div>";
-
-
-    function replaceContent(string, target, replacement){
-        return string.replace(target, replacement)
-    }
-
-
-    var res_name = replaceContent(contentString, "%RESTAURANT_NAME%",
-                   restaurant.name);
-    var taco = replaceContent(res_name, "%TACO%", restaurant.favorite);
-    var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary);
-
-    var phone;
-    if (restaurant.phone){
-        phone = replaceContent(summary, "%PHONE%", restaurant.phone);
-    } else {
-        phone = replaceContent(summary, "%PHONE%", '');
-    };
-
-    var address = replaceContent(phone, "%ADDRESS%", restaurant.address);
-
-    var labelMenu;
-
-    if (restaurant.menu){
-        labelMenu = replaceContent(address, "%SEE_MENU%", "See Menu");
-    } else {
-        labelMenu = replaceContent(address, "%SEE_MENU%", "");
-    }
-
-    var menu = replaceContent(labelMenu, "%MENU%", restaurant.menu);
-
-    var labelDelivery;
-    if (restaurant.delivery){
-        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "Get Delivery");
-    } else {
-        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "");
-    }
-
-    var delivery = replaceContent(labelDelivery, "%DELIVERY%",
-                   restaurant.delivery)
-
-
-    var infowindow = new google.maps.InfoWindow({
-        content: delivery,
-        title: restaurant.name
-    });
-
-
-    infowindow.addListener("closeclick", function(){
-        marker.setAnimation(null);
-    })
-
-    var marker = new google.maps.Marker({
-                position: restaurant.coordinates,
-                map: map,
-                title: restaurant.name,
-                animation: google.maps.Animation.DROP,
-                info: infowindow
-             });
-
-    marker.addListener('click', toggleBounce);
-
-
-
-    marker.addListener('click', function(){
-        infowindow.open(map, marker);
-     });
-
-
-    return marker
-}
-
 
 var retrievedRestaurants = [];
-
-
-
 var modelRestaurants = ko.observableArray([]);
-
 var currentRes = ko.observable();
-
-
-
 var allRestaurants = ko.observableArray([]);
-
 var singleRestaurant = {
     name: ko.observable('')
 };
