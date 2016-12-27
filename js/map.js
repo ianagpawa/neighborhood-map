@@ -1,13 +1,22 @@
-var map;
+/**
+* @description Creates map marker
+* @param {object} restaurant Restaurant info already retrieved from
+*   Foursquare
+* @param {object} map Instance of Google map.
+* @returns {object} marker Google Map marker
+*/
 
 function singleMarker(restaurant, map){
     /*  From Google MAP API documentation   */
+    /**
+    * @description Toggles bounce animation of map markers.
+    */
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
             marker.setAnimation(null);
         } else {
             marker.setAnimation(google.maps.Animation.BOUNCE);
-        };
+        }
     };
 
     var contentString = "<div class='text-center' id='content>" +
@@ -27,9 +36,15 @@ function singleMarker(restaurant, map){
                         "%GET_DELIVERY%"+
                         "</a></p></div></div>";
 
+    /**
+    * @description Modifies contentString with restaurant info.
+    * @param {string} string Content string
+    * @param {string} target Substring targeted in content string
+    * @param {string} replacement Modified string
+    */
     function replaceContent(string, target, replacement){
-        return string.replace(target, replacement)
-    };
+        return string.replace(target, replacement);
+    }
 
     var res_name = replaceContent(contentString, "%RESTAURANT_NAME%",
                    restaurant.name);
@@ -40,24 +55,30 @@ function singleMarker(restaurant, map){
         phone = replaceContent(summary, "%PHONE%", restaurant.phone);
     } else {
         phone = replaceContent(summary, "%PHONE%", '');
-    };
+    }
     var address = replaceContent(phone, "%ADDRESS%", restaurant.address);
     var labelMenu;
     if (restaurant.menu){
         labelMenu = replaceContent(address, "%SEE_MENU%", "See Menu");
     } else {
         labelMenu = replaceContent(address, "%SEE_MENU%", "");
-    };
+    }
     var menu = replaceContent(labelMenu, "%MENU%", restaurant.menu);
     var labelDelivery;
     if (restaurant.delivery){
         labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "Get Delivery");
     } else {
         labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "");
-    };
+    }
     var delivery = replaceContent(labelDelivery, "%DELIVERY%",
                    restaurant.delivery);
 
+   /**
+   * @description Creates info window for map markers.
+   * @param {string} delivery Modified content string with restaurant info
+   * @param {string} restaurant.name Title for map marker
+   * @returns {object} infowindow Info window for map marker
+   */
     var infowindow = new google.maps.InfoWindow({
         content: delivery,
         title: restaurant.name
@@ -67,6 +88,15 @@ function singleMarker(restaurant, map){
         marker.setAnimation(null);
     });
 
+    /**
+    * @description Creates map marker objects
+    * @param {string} restaurant.coordinates GPS location for restaurant
+    * @param {object} map Google map
+    * @param {string} restaurant.name Title for map marker
+    * @param {string} google.maps.Animation.DROP  Animation for map marker
+    * @param {object} infowindow Info window for map marker
+    * @returns {object} marker Google map marker
+    */
     var marker = new google.maps.Marker({
                 position: restaurant.coordinates,
                 map: map,
@@ -79,11 +109,17 @@ function singleMarker(restaurant, map){
 
     marker.addListener('click', function(){
         infowindow.open(map, marker);
-     });
+     })
 
-    return marker
-};
+    return marker;
+}
 
+
+var map;
+
+/**
+* @description Initializes Google map on load
+*/
 function initMap(){
     var self = this;
 
@@ -92,6 +128,10 @@ function initMap(){
         zoom: 16
     });
 
+    /**
+    * @description Highlights map marker of selected restaurant from list
+    * @returns {object} marker Selected restaurant map marker will bounce
+    */
     this.selectedRestaurant = ko.computed(function(){
         if (currentRes()){
             var currentRestaurantName = currentRes().name();
@@ -100,13 +140,16 @@ function initMap(){
                 if (currentRestaurantName == restaurant.title){
                     restaurant.setAnimation(google.maps.Animation.BOUNCE);
                 }
-            });
-        };
-    });
+            })
+        }
+    })
 
     var createdMarkers = retrievedRestaurants;
 
-
+    /**
+    * @description Filters restaurant list and map markers
+    * @returns Returns filtered list and map markers
+    */
     this.markersList = ko.computed(function(){
         if (singleRestaurant.name()){
             createdMarkers.forEach(function(marker){
@@ -116,16 +159,16 @@ function initMap(){
                 } else {
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
-            });
+            })
 
 
             if (singleRestaurant.name().length < 2){
                 createdMarkers.forEach(function(marker){
                     marker.setVisible(true);
                     marker.setAnimation(null);
-                    (marker.info).close(map, marker)
-                });
-            };
-        };
-    });
-};
+                    (marker.info).close(map, marker);
+                })
+            }
+        }
+    })
+}
