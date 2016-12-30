@@ -38,11 +38,8 @@ function createRestaurant(restaurant){
             * @description Adds a zero to month or day.
             */
             function addZero(n){
-                if (n < 10) {
-                    n = '0' + n
-                }
-                return n.toString()
-            };
+                return ('0' + n).slice(-2);
+            }
 
             day = addZero(day);
             month = addZero(month);
