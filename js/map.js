@@ -18,59 +18,50 @@ function singleMarker(restaurant, map){
         }
     }
 
-    var contentString = "<div class='text-center' id='content>" +
-                        "<h1 id='restaurant_name' class='firstHeading'>"+
-                        "<b>%RESTAURANT_NAME%</b>"+
-                        "</h1>"+
-                        "<div id='restaurant_info'>"+
-                        "<p>%ADDRESS%</p>"+
-                        "<p>%PHONE%</p>"+
-                        "<p>%SUMMARY%</p>"+
-                        "<p>Favorite Taco: %TACO%</p>"+
-                        "<p>"+
-                        "<a href='%MENU%' target='_blank'>%SEE_MENU%</a>"+
-                        "</p>"+
-                        "<p>"+
-                        "<a href='%DELIVERY%' target='_blank'>"+
-                        "%GET_DELIVERY%"+
-                        "</a></p></div></div>";
-    /**
-    * @description Modifies contentString with restaurant info.
-    * @param {string} string Content string
-    * @param {string} target Substring targeted in content string
-    * @param {string} replacement Modified string
-    */
-    function replaceContent(string, target, replacement){
-        return string.replace(target, replacement);
-    }
 
-    var res_name = contentString.replace("%RESTAURANT_NAME%", restaurant.name);
-    replaceContent(contentString, "%RESTAURANT_NAME%",
-                   restaurant.name);
-    var taco = replaceContent(res_name, "%TACO%", restaurant.favorite);
-    var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary);
+    var res_name = restaurant.name;
+    var address = restaurant.address;
     var phone;
     if (restaurant.phone){
-        phone = replaceContent(summary, "%PHONE%", restaurant.phone);
+        phone = restaurant.phone;
     } else {
-        phone = replaceContent(summary, "%PHONE%", '');
+        phone = '';
     }
-    var address = replaceContent(phone, "%ADDRESS%", restaurant.address);
+
+    var summary = restaurant.summary;
+    var taco = restaurant.favorite;
+    var menu = restaurant.menu;
     var labelMenu;
     if (restaurant.menu){
-        labelMenu = replaceContent(address, "%SEE_MENU%", "See Menu");
+        labelMenu = "See Menu";
     } else {
-        labelMenu = replaceContent(address, "%SEE_MENU%", "");
+        labelMenu = "";
     }
-    var menu = replaceContent(labelMenu, "%MENU%", restaurant.menu);
+
+    var delivery = restaurant.delivery;
     var labelDelivery;
     if (restaurant.delivery){
-        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "Get Delivery");
+        labelDelivery = "Get Delivery";
     } else {
-        labelDelivery = replaceContent(menu, "%GET_DELIVERY%", "");
+        labelDelivery = "";
     }
-    var delivery = replaceContent(labelDelivery, "%DELIVERY%",
-                   restaurant.delivery);
+
+    var contentString = "<div class='text-center' id='content>" +
+                        "<h1 id='restaurant_name' class='firstHeading'>"+
+                        `<b>${res_name}</b>`+
+                        "</h1>"+
+                        "<div id='restaurant_info'>"+
+                        `<p>${address}</p>`+
+                        `<p>${phone}</p>`+
+                        `<p>${summary}</p>`+
+                        `<p>Favorite Taco: ${taco}</p>`+
+                        "<p>"+
+                        `<a href='${menu}' target='_blank'>${labelMenu}</a>`+
+                        "</p>"+
+                        "<p>"+
+                        `<a href='${delivery}' target='_blank'>`+
+                        `${labelDelivery}`+
+                        "</a></p></div></div>";
 
    /**
    * @description Creates info window for map markers.
@@ -79,7 +70,7 @@ function singleMarker(restaurant, map){
    * @returns {object} infowindow Info window for map marker
    */
     var infowindow = new google.maps.InfoWindow({
-        content: delivery,
+        content: contentString,
         title: restaurant.name
     });
 

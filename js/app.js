@@ -81,7 +81,6 @@ function createRestaurant(restaurant){
                   client_id +
                   client_secret +
                   version;
-        console.log(url)
 
         $.ajax({
             dataType: 'json',
