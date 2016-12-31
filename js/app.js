@@ -114,20 +114,11 @@ function createRestaurant(restaurant){
         var phone = data.contact.formattedPhone;
         retrievedRestaurant.phone = phone;
 
-        retrievedRestaurants.push(singleMarker(retrievedRestaurant, map));
-        modelRestaurants.push(new Restaurant(retrievedRestaurant));
+        //retrievedRestaurants.push(singleMarker(retrievedRestaurant, map));
+        //modelRestaurants.push(new Restaurant(retrievedRestaurant));
 
     })
 }
-
-
-var retrievedRestaurants = [];
-var modelRestaurants = ko.observableArray([]);
-var currentRes = ko.observable();
-var allRestaurants = ko.observableArray([]);
-var singleRestaurant = {
-    name: ko.observable('')
-};
 
 
 /**
@@ -135,68 +126,8 @@ var singleRestaurant = {
 */
 var ViewModel = function(){
     var self = this;
-    /**
-    * @description Creates restaurant instances from restaurant list
-    */
-    restaurants.forEach(function(restaurant){
-        createRestaurant(restaurant)
-    });
-
-    this.restaurantList = modelRestaurants;
-
-    /**
-    * @description Selects restaurant from list.
-    */
-    this.getCurrentRestaurant = function(clicked){
-        self.currentRestaurant(clicked)
-    }
-
-    this.currentRestaurant = ko.observable( self.restaurantList[0] );
-
-    currentRes = self.currentRestaurant;
-
-    this.filter = ko.observable();
-    /**
-    * @description Filters restaurant list.
-    */
-    this.filteredList = ko.computed(function(){
-        var filter = self.filter();
-        if (!filter){
-            return self.restaurantList();
-        } else {
-
-            /**
-            * @description Transforms input from filter into camelcase
-            * @param {string} input Input from filtered text
-            */
-            function camelCaseAll(input){
-                var arr = input.split(" ");
-                var newArr = [];
-
-                function upperCaseWord(word){
-                        return word.slice(0,1).toUpperCase() +
-                               word.slice(1).toLowerCase();
-                }
-
-                arr.forEach(function(word){
-                    newArr.push(upperCaseWord(word));
-                })
-
-                return newArr.join(" ");
-            }
 
 
-            filter = camelCaseAll(filter);
-
-            return ko.utils.arrayFilter(self.restaurantList(),
-                function(restaurant){
-                    singleRestaurant.name(filter);
-                    return restaurant.name().startsWith(filter);
-            })
-        }
-    })
-
-    allRestaurants = self.filteredList;
 }
 
 

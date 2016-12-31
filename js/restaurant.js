@@ -7,6 +7,7 @@
 *number.
 */
 var Restaurant = function(data){
+    var self = this;
     this.name = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.id = ko.observable(data.id);
@@ -16,6 +17,50 @@ var Restaurant = function(data){
     this.favorite = ko.observable(data.favorite);
     this.summary = ko.observable(data.summary);
     this.phone = ko.observable(data.phone);
+
+    var labelMenu;
+    if (self.menu){
+        labelMenu = "See Menu";
+    } else {
+        labelMenu = "";
+    }
+
+    var labelDelivery;
+    if (self.delivery){
+        labelDelivery = "Get Delivery";
+    } else {
+        labelDelivery = "";
+    }
+
+    var contentString = "<div class='text-center' id='content>" +
+                        "<h1 id='restaurant_name' class='firstHeading'>"+
+                        `<b>${self.name}</b>`+
+                        "</h1>"+
+                        "<div id='restaurant_info'>"+
+                        `<p>${self.address}</p>`+
+                        `<p>${self.phone}</p>`+
+                        `<p>${self.summary}</p>`+
+                        `<p>Favorite Taco: ${self.taco}</p>`+
+                        "<p>"+
+                        `<a href='${self.menu}' target='_blank'>${labelMenu}</a>`+
+                        "</p>"+
+                        "<p>"+
+                        `<a href='${self.delivery}' target='_blank'>`+
+                        `${labelDelivery}`+
+                        "</a></p></div></div>";
+
+    this.contentString = ko.observable(contentString)
+}
+
+Restaurant.prototype.addMarker = function(){
+    var self = this;
+    this.marker = new google.maps.Marker({
+        position: this.coordinates,
+        map: map,
+        title: this.name,
+        animation: google.maps.Animation.Drop,
+        info: content
+    })
 }
 
 /*

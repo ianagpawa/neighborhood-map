@@ -18,51 +18,6 @@ function singleMarker(restaurant, map){
         }
     }
 
-
-    var res_name = restaurant.name;
-    var address = restaurant.address;
-    var phone;
-    if (restaurant.phone){
-        phone = restaurant.phone;
-    } else {
-        phone = '';
-    }
-
-    var summary = restaurant.summary;
-    var taco = restaurant.favorite;
-    var menu = restaurant.menu;
-    var labelMenu;
-    if (restaurant.menu){
-        labelMenu = "See Menu";
-    } else {
-        labelMenu = "";
-    }
-
-    var delivery = restaurant.delivery;
-    var labelDelivery;
-    if (restaurant.delivery){
-        labelDelivery = "Get Delivery";
-    } else {
-        labelDelivery = "";
-    }
-
-    var contentString = "<div class='text-center' id='content>" +
-                        "<h1 id='restaurant_name' class='firstHeading'>"+
-                        `<b>${res_name}</b>`+
-                        "</h1>"+
-                        "<div id='restaurant_info'>"+
-                        `<p>${address}</p>`+
-                        `<p>${phone}</p>`+
-                        `<p>${summary}</p>`+
-                        `<p>Favorite Taco: ${taco}</p>`+
-                        "<p>"+
-                        `<a href='${menu}' target='_blank'>${labelMenu}</a>`+
-                        "</p>"+
-                        "<p>"+
-                        `<a href='${delivery}' target='_blank'>`+
-                        `${labelDelivery}`+
-                        "</a></p></div></div>";
-
    /**
    * @description Creates info window for map markers.
    * @param {string} delivery Modified content string with restaurant info
@@ -92,13 +47,13 @@ function singleMarker(restaurant, map){
                 map: map,
                 title: restaurant.name,
                 animation: google.maps.Animation.DROP,
-                info: infowindow
+                info: contentString
              });
 
     marker.addListener('click', toggleBounce);
 
     marker.addListener('click', function(){
-        infowindow.open(map, marker);
+        populateInfoWindow(this, infoWindow);
      })
 
     return marker;
@@ -106,6 +61,20 @@ function singleMarker(restaurant, map){
 
 
 var map;
+var infoWindow;
+
+
+function createInfoWindow(marker, infowindow){
+    if (infowindow.marker != marker){
+        infowindow.marker = marker;
+        infowindow.setContent(marker.contentString);
+        infowindow.open(map, marker);
+
+        infowinwdow.addListener('closeclick', function(){
+            infowindow.setMarker(null)
+        })
+    }
+}
 
 /**
 * @description Initializes Google map on load
@@ -113,52 +82,26 @@ var map;
 function initMap(){
     var self = this;
 
+    var markers = [];
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.795, lng: -73.939},
         zoom: 16
     });
 
-    /**
-    * @description Highlights map marker of selected restaurant from list
-    * @returns {object} marker Selected restaurant map marker will bounce
-    */
-    this.selectedRestaurant = ko.computed(function(){
-        if (currentRes()){
-            var currentRestaurantName = currentRes().name();
-            createdMarkers.forEach(function(restaurant){
-                restaurant.setAnimation(null);
-                if (currentRestaurantName == restaurant.title){
-                    restaurant.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            })
-        }
-    })
+    infoWindow = new google.maps.InfoWindow();
 
-    var createdMarkers = retrievedRestaurants;
+    for (var i = 0; i < restaurants.length; i++){
+        var marker = new google.maps.Marker({
+            map: map,
+            position: restaurants[i].coordinates,
+            title: restaurants[i].name,
+            animation: google.maps.Animation.DROP
+        })
+        markers.push(marker)
+        marker.addListener('click', function(){
+            createInfoWindow(this, infoWindow)
+        })
+    }
 
-    /**
-    * @description Filters restaurant list and map markers
-    * @returns Returns filtered list and map markers
-    */
-    this.markersList = ko.computed(function(){
-        if (singleRestaurant.name()){
-            createdMarkers.forEach(function(marker){
-                if (!marker.title.startsWith(singleRestaurant.name())){
-                    marker.setVisible(false);
-                    (marker.info).close(map, marker)
-                } else {
-                    marker.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            })
-
-
-            if (singleRestaurant.name().length < 2){
-                createdMarkers.forEach(function(marker){
-                    marker.setVisible(true);
-                    marker.setAnimation(null);
-                    (marker.info).close(map, marker);
-                })
-            }
-        }
-    })
 }
