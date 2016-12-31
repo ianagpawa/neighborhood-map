@@ -115,12 +115,13 @@ function createRestaurant(restaurant){
         retrievedRestaurant.phone = phone;
 
         retrievedRestaurants.push(retrievedRestaurant);
-        //modelRestaurants.push(new Restaurant(retrievedRestaurant));
+        modelRestaurants.push(new Restaurant(retrievedRestaurant));
 
     })
 }
 
 var retrievedRestaurants = []
+var modelRestaurants = ko.observableArray([]);
 /**
 * @description Creates ViewModel for knockout binding
 */

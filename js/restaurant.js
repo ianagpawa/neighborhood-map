@@ -55,11 +55,11 @@ var Restaurant = function(data){
 Restaurant.prototype.addMarker = function(){
     var self = this;
     this.marker = new google.maps.Marker({
-        position: this.coordinates,
+        position: self.coordinates,
         map: map,
-        title: this.name,
+        title: self.name,
         animation: google.maps.Animation.Drop,
-        info: content
+        info: self.contentString
     })
 }
 
@@ -122,10 +122,4 @@ var restaurants = [
 
 restaurants.forEach(function(restaurant){
     createRestaurant(restaurant);
-})
-
-
-
-retrievedRestaurants.forEach(function(restaurant){
-    console.log(restaurant)
 })

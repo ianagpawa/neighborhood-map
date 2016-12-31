@@ -102,6 +102,14 @@ function initMap(){
         })
     }
 
+    var thing = modelRestaurants;
+    ko.utils.arrayForEach(thing(), function(restaurant){
+        console.log(thing())
+        console.log(restaurant)
+    })
+
+
+    /*
     restaurants.forEach(function(restaurant){
         var  marker = mark(restaurant)
         markers.push(marker);
@@ -118,8 +126,10 @@ function initMap(){
         marker.addListener('click', function(){
             createInfoWindow(this, infoWindow)
         })
-        */
+
     })
+    */
+
 
 /*
     for (var i = 0; i < retrievedRestaurants.length; i++){

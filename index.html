@@ -33,7 +33,7 @@
                             data-bind="value: filter, valueUpdate: 'keyup'"/>
                     </li>
                     <div class="dropdown-divider"></div>
-                    <div data-bind="foreach: filteredList"s>
+                    <div data-bind="foreach: filteredList">
                         <li class='dropdown-li text-center'
                             data-bind="click: $parent.getCurrentRestaurant, text: name">
                         </li>
@@ -61,13 +61,12 @@
     <script src="js/restaurant.js"></script>
     <script src="js/map.js"></script>
     <script>
-        function errorMap(){
+        function googleError(){
             alert("Something went wrong with Google Maps.  Please check the console for details.");
         }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCjgpb2KA-b3SXVQWPLtHEk_CurgfXLo&callback=initMap"
-        onerror="errorMap()">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCjgpb2KA-b3SXVQWPLtHEk_CurgfXLo&callback=initMap" onerror="googleError()">
     </script>
 
 </body>
