@@ -44,7 +44,8 @@ function singleMarker(restaurant, map){
         return string.replace(target, replacement);
     }
 
-    var res_name = replaceContent(contentString, "%RESTAURANT_NAME%",
+    var res_name = contentString.replace("%RESTAURANT_NAME%", restaurant.name);
+    replaceContent(contentString, "%RESTAURANT_NAME%",
                    restaurant.name);
     var taco = replaceContent(res_name, "%TACO%", restaurant.favorite);
     var summary = replaceContent(taco, "%SUMMARY%", restaurant.summary);

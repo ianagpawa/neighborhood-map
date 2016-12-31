@@ -50,7 +50,6 @@ function createRestaurant(restaurant){
         /*  Builds URL string for ajax call */
         var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
         var coordinates = "40.793,-73.941"
-        var query = "&query=%RESTAURANT_NAME%";
 
         /**
         * @description Formats name of restaurant
@@ -62,27 +61,27 @@ function createRestaurant(restaurant){
             return name_array.join("%20")
         }
 
-        var formattedName = formatName(restaurant_name);
-        var restaurantName = query.replace("%RESTAURANT_NAME%", formattedName)
-        var city = "&near=New%20York,NY"
-        var limit = "&limit=1"
-        var client_id = "&client_id=%CLIENT_ID%".replace("%CLIENT_ID%",
-                        CLIENT_ID)
-        var client_secret = "&client_secret=%CLIENT_SECRET%".replace(
-                            "%CLIENT_SECRET%", CLIENT_SECRET);
-        var currentDate = getCurrentDate();
-        var version = "&v=%DATE%".replace("%DATE%", currentDate);
+        var restaurant_name = formatName(restaurant_name);
+        var query = `&query=${restaurant_name}`;
 
-        /*  Finied url  */
+        var city = "&near=New%20York,NY";
+        var limit = "&limit=1";
+        var client_id = `&client_id=${CLIENT_ID}`;
+        var client_secret = `&client_secret=${CLIENT_SECRET}`;
+
+        var currentDate = getCurrentDate();
+        var version = `&v=${currentDate}`;
+
+        /*  Finished url  */
         var url = urlStart +
                   coordinates +
-                  restaurantName +
+                  query +
                   city +
                   limit +
                   client_id +
                   client_secret +
                   version;
-
+        console.log(url)
 
         $.ajax({
             dataType: 'json',
