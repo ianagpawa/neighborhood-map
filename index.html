@@ -59,8 +59,14 @@
     <script src="js/restaurant.js"></script>
     <script src="js/app.js"></script>
     <script src="js/map.js"></script>
+    <script>
+        function errorMap(){
+            alert("Something went wrong with Google Maps.  Please check the console for details.");
+        }
+    </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCjgpb2KA-b3SXVQWPLtHEk_CurgfXLo&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCjgpb2KA-b3SXVQWPLtHEk_CurgfXLo&callback=initMap"
+        onerror="errorMap()">
     </script>
 
 </body>
