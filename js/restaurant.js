@@ -118,3 +118,14 @@ var restaurants = [
         summary: "Meh.  There are better places to eat better food.  Last resort tacos."
     }
 ];
+
+
+restaurants.forEach(function(restaurant){
+    createRestaurant(restaurant);
+})
+
+
+
+retrievedRestaurants.forEach(function(restaurant){
+    console.log(restaurant)
+})

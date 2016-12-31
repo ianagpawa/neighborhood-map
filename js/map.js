@@ -62,12 +62,12 @@ function singleMarker(restaurant, map){
 
 var map;
 var infoWindow;
-
+var mark;
 
 function createInfoWindow(marker, infowindow){
     if (infowindow.marker != marker){
         infowindow.marker = marker;
-        infowindow.setContent(marker.contentString);
+        infowindow.setContent(marker.info);
         infowindow.open(map, marker);
 
         infowinwdow.addListener('closeclick', function(){
@@ -75,6 +75,7 @@ function createInfoWindow(marker, infowindow){
         })
     }
 }
+
 
 /**
 * @description Initializes Google map on load
@@ -91,17 +92,48 @@ function initMap(){
 
     infoWindow = new google.maps.InfoWindow();
 
-    for (var i = 0; i < restaurants.length; i++){
+    mark = function(data){
+        return new google.maps.Marker({
+            map: map,
+            position: data.coordinates,
+            title: data.name,
+            animation: google.maps.Animation.DROP,
+            info: data.summary
+        })
+    }
+
+    restaurants.forEach(function(restaurant){
+        var  marker = mark(restaurant)
+        markers.push(marker);
+        marker.addListener('click', function(){
+            createInfoWindow(this, infoWindow)
+        });
+        /*
+        marker.addListener('click', function(){
+            createInfoWindow(this, infoWindow)
+        })
+        */
+        /*
+        markers.push()
+        marker.addListener('click', function(){
+            createInfoWindow(this, infoWindow)
+        })
+        */
+    })
+
+/*
+    for (var i = 0; i < retrievedRestaurants.length; i++){
         var marker = new google.maps.Marker({
             map: map,
             position: restaurants[i].coordinates,
             title: restaurants[i].name,
-            animation: google.maps.Animation.DROP
+            animation: google.maps.Animation.DROP,
+            info: restaurants[i].summary
         })
         markers.push(marker)
         marker.addListener('click', function(){
             createInfoWindow(this, infoWindow)
         })
     }
-
+*/
 }

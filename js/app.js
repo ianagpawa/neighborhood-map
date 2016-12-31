@@ -114,13 +114,13 @@ function createRestaurant(restaurant){
         var phone = data.contact.formattedPhone;
         retrievedRestaurant.phone = phone;
 
-        //retrievedRestaurants.push(singleMarker(retrievedRestaurant, map));
+        retrievedRestaurants.push(retrievedRestaurant);
         //modelRestaurants.push(new Restaurant(retrievedRestaurant));
 
     })
 }
 
-
+var retrievedRestaurants = []
 /**
 * @description Creates ViewModel for knockout binding
 */
