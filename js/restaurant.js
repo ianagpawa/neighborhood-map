@@ -43,18 +43,18 @@ var Restaurant = function(data){
 
     var contentString = "<div class='text-center' id='content>" +
                         "<h1 id='restaurant_name' class='firstHeading'>"+
-                        `<b>${self.name}</b>`+
+                        `<b>${self.name()}</b>`+
                         "</h1>"+
                         "<div id='restaurant_info'>"+
-                        `<p>${self.address}</p>`+
-                        `<p>${self.phone}</p>`+
-                        `<p>${self.summary}</p>`+
-                        `<p>Favorite Taco: ${self.taco}</p>`+
+                        `<p>${self.address()}</p>`+
+                        `<p>${self.phone()}</p>`+
+                        `<p>${self.summary()}</p>`+
+                        `<p>Favorite Taco: ${self.favorite()}</p>`+
                         "<p>"+
-                        `<a href='${self.menu}' target='_blank'>${labelMenu}</a>`+
+                        `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>`+
                         "</p>"+
                         "<p>"+
-                        `<a href='${self.delivery}' target='_blank'>`+
+                        `<a href='${self.delivery()}' target='_blank'>`+
                         `${labelDelivery}`+
                         "</a></p></div></div>";
 
@@ -161,13 +161,11 @@ var Restaurant = function(data){
         self.phone(phone);
     })
 
-/*
-    this.id = ko.observable();
-    this.address = ko.observable();
-    this.menu = ko.observable();
-    this.delivery = ko.observable();
-    this.phone = ko.observable();
-    */
+
+
+    this.marker = new newMarker(self)
+
+
 
 
 }
@@ -230,14 +228,7 @@ var restaurants = [
     }
 ];
 
-var testing = ko.observableArray([])
 
-/*
-restaurants.forEach(function(restaurant){
-    var newRes = new Restaurant(restaurant);
-    testing.push(newRes);
-})
-*/
 
 /**
 * @description Initializes Google map on load
@@ -254,23 +245,45 @@ function initMap(){
 
     infoWindow = new google.maps.InfoWindow();
 
-    newMarker = new google.maps.Marker();
+    function createInfoWindow(marker, infowindow){
+        if (infowindow.marker != marker){
+            infowindow.marker = marker;
+            infowindow.setContent(marker.content);
+            infowindow.open(map, marker);
+            /*
+            infowindow.addListener('closeclick', function(){
+                infowindow.setMarker(null)
+            })
+            */
+        }
+    }
+
+    newMarker = function(datum){
+        var thing = new google.maps.Marker({
+            position: datum.coordinates(),
+            map: map,
+            title: datum.name(),
+            animation: google.maps.Animation.DROP,
+            content: datum.contentString()
+        })
+
+        thing.addListener('click', function(){
+            createInfoWindow(this, infoWindow)
+        })
+    }
+
 
     self.markers = [];
 
+
+
+
     restaurants.forEach(function(rest){
-        var test = new newMarker({
-            position: rest.coordinates,
-            map: map,
-            title: rest.name,
-            animation: google.maps.Animation.DROP
-        })
-        self.markers.push(test)
+        var restaurant = new Restaurant(rest);
+        var mar = restaurant.marker
+        self.markers.push(restaurant)
     })
 
-
-
-    console.log('here');
     console.log(self.markers)
 
 }
