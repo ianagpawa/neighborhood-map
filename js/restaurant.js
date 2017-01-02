@@ -23,27 +23,13 @@ var Restaurant = function(data){
     this.address = ko.observable();
     this.menu = ko.observable();
     this.delivery = ko.observable();
-    this.favorite = ko.observable();
-    this.summary = ko.observable();
     this.phone = ko.observable();
 
-    var labelMenu;
-    if (self.menu()){
-        labelMenu = "See Menu";
-    } else {
-        labelMenu = "";
-    }
-
-    var labelDelivery;
-    if (self.delivery()){
-        labelDelivery = "Get Delivery";
-    } else {
-        labelDelivery = "";
-    }
 
     var contentString;
 
     this.contentString = ko.observable(contentString);
+    this.marker = ko.observable()
 
     /**
     * @description Ajax call to retrieve restaurant info from Foursquare
@@ -52,7 +38,7 @@ var Restaurant = function(data){
     *   data
     * @returns {object} response Retrieved restaurant info
     */
-    function getAjax(restaurant_name, callback){
+    function getAjax(restaurant, callback){
 
         /**
         * @description Creates current date, needed for Foursquare ajax
@@ -88,11 +74,11 @@ var Restaurant = function(data){
         * @returns {string} Formatted restaurant name
         */
         function formatName(restaurant_name){
-            var name_array = restaurant_name().split(" ");
+            var name_array = restaurant_name.split(" ");
             return name_array.join("%20")
         }
 
-        var restaurant_name = formatName(restaurant_name);
+        var restaurant_name = formatName(restaurant.name());
         var query = `&query=${restaurant_name}`;
 
         var city = "&near=New%20York,NY";
@@ -127,12 +113,15 @@ var Restaurant = function(data){
     };
 
 
-    getAjax(self.name, function(data){
+    getAjax(self, function(data){
         var id = data.id;
         self.id(id);
 
         var address = data.location.formattedAddress[0];
         self.address(address);
+
+        var menu;
+        var delivery;
 
         if (data.hasMenu){
             menu = data.menu.url;
@@ -145,14 +134,34 @@ var Restaurant = function(data){
         var phone = data.contact.formattedPhone;
         self.phone(phone);
 
+        if (!phone){
+            phone = ''
+        }
+
+        var summary = self.summary()
+
+        var labelMenu;
+        if (self.menu()){
+            labelMenu = "See Menu";
+        } else {
+            labelMenu = "";
+        }
+
+        var labelDelivery;
+        if (self.delivery()){
+            labelDelivery = "Get Delivery";
+        } else {
+            labelDelivery = "";
+        }
+
         contentString = "<div class='text-center' id='content>" +
                             "<h1 id='restaurant_name' class='firstHeading'>"+
                             `<b>${self.name()}</b>`+
                             "</h1>"+
                             "<div id='restaurant_info'>"+
                             `<p>${self.address()}</p>`+
-                            `<p>${self.phone()}</p>`+
-                            `<p>${self.summary()}</p>`+
+                            `<p>${phone}</p>`+
+                            `<p>${summary}</p>`+
                             `<p>Favorite Taco: ${self.favorite()}</p>`+
                             "<p>"+
                             `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>`+
@@ -169,7 +178,6 @@ var Restaurant = function(data){
 
 
 
-    this.marker = ko.observable()
 
 
 
