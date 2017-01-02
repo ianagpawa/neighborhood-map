@@ -41,22 +41,7 @@ var Restaurant = function(data){
         labelDelivery = "";
     }
 
-    var contentString = "<div class='text-center' id='content>" +
-                        "<h1 id='restaurant_name' class='firstHeading'>"+
-                        `<b>${self.name()}</b>`+
-                        "</h1>"+
-                        "<div id='restaurant_info'>"+
-                        `<p>${self.address()}</p>`+
-                        `<p>${self.phone()}</p>`+
-                        `<p>${self.summary()}</p>`+
-                        `<p>Favorite Taco: ${self.favorite()}</p>`+
-                        "<p>"+
-                        `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>`+
-                        "</p>"+
-                        "<p>"+
-                        `<a href='${self.delivery()}' target='_blank'>`+
-                        `${labelDelivery}`+
-                        "</a></p></div></div>";
+    var contentString;
 
     this.contentString = ko.observable(contentString);
 
@@ -159,11 +144,32 @@ var Restaurant = function(data){
 
         var phone = data.contact.formattedPhone;
         self.phone(phone);
+
+        contentString = "<div class='text-center' id='content>" +
+                            "<h1 id='restaurant_name' class='firstHeading'>"+
+                            `<b>${self.name()}</b>`+
+                            "</h1>"+
+                            "<div id='restaurant_info'>"+
+                            `<p>${self.address()}</p>`+
+                            `<p>${self.phone()}</p>`+
+                            `<p>${self.summary()}</p>`+
+                            `<p>Favorite Taco: ${self.favorite()}</p>`+
+                            "<p>"+
+                            `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>`+
+                            "</p>"+
+                            "<p>"+
+                            `<a href='${self.delivery()}' target='_blank'>`+
+                            `${labelDelivery}`+
+                            "</a></p></div></div>";
+
+        self.contentString(contentString);
+
+        self.marker(new Marker(self))
     })
 
 
 
-    this.marker = new newMarker(self)
+    this.marker = ko.observable()
 
 
 
@@ -236,7 +242,6 @@ var restaurants = [
 function initMap(){
     var self = this;
 
-    var markers = [];
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.795, lng: -73.939},
@@ -258,8 +263,8 @@ function initMap(){
         }
     }
 
-    newMarker = function(datum){
-        var thing = new google.maps.Marker({
+    Marker = function(datum){
+        var mark = new google.maps.Marker({
             position: datum.coordinates(),
             map: map,
             title: datum.name(),
@@ -267,7 +272,7 @@ function initMap(){
             content: datum.contentString()
         })
 
-        thing.addListener('click', function(){
+        mark.addListener('click', function(){
             createInfoWindow(this, infoWindow)
         })
     }
