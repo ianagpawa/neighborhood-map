@@ -62,7 +62,7 @@ function singleMarker(restaurant, map){
 
 var map;
 var infoWindow;
-var mark;
+var newMarker;
 
 function createInfoWindow(marker, infowindow){
     if (infowindow.marker != marker){
@@ -84,6 +84,14 @@ function initMap(){
     var self = this;
 
     var markers = [];
+
+    var newMarker = new google.maps.Marker({
+                position: self.coordinates,
+                map: map,
+                title: self.name,
+                animation: google.maps.Animation.DROP,
+                info: self.contentString
+             });
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.795, lng: -73.939},
