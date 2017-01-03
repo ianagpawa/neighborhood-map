@@ -138,6 +138,7 @@ var Restaurant = function(data){
             phone = ''
         }
 
+
         var summary = self.summary()
 
         var labelMenu;
@@ -284,19 +285,5 @@ function initMap(){
             createInfoWindow(this, infoWindow)
         })
     }
-
-
-    self.markers = [];
-
-
-
-
-    restaurants.forEach(function(rest){
-        var restaurant = new Restaurant(rest);
-        var mar = restaurant.marker
-        self.markers.push(restaurant)
-    })
-
-    console.log(self.markers)
 
 }
