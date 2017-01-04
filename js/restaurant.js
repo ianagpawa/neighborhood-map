@@ -178,11 +178,6 @@ var Restaurant = function(data){
     })
 
 
-
-
-
-
-
 }
 
 
@@ -284,6 +279,8 @@ function initMap(){
         mark.addListener('click', function(){
             createInfoWindow(this, infoWindow)
         })
+
+        return mark
     }
 
 }
