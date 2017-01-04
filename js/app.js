@@ -14,6 +14,12 @@ var ViewModel = function(){
 
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked);
+        var selectedRestaurant = self.currentRestaurant();
+        var restaurantMarker = selectedRestaurant.marker();
+
+        restaurantMarker.setAnimation(google.maps.Animation.BOUNCE)
+        infoWindow.setContent(restaurantMarker.content)
+        infoWindow.open(map, restaurantMarker)
     }
 
 
@@ -30,9 +36,10 @@ var ViewModel = function(){
             })
             return self.restaurantList();
         } else if (!filter){
+
             return self.restaurantList();
         } else if (filter) {
-
+            infoWindow.close()
             function lowerCased(input){
                 var arr = input.split(" ");
                 var newArr = [];

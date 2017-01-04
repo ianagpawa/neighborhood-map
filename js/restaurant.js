@@ -238,7 +238,7 @@ var restaurants = [
     }
 ];
 
-
+var animation;
 
 /**
 * @description Initializes Google map on load
@@ -254,16 +254,12 @@ function initMap(){
 
     infoWindow = new google.maps.InfoWindow();
 
+
     function createInfoWindow(marker, infowindow){
         if (infowindow.marker != marker){
             infowindow.marker = marker;
             infowindow.setContent(marker.content);
             infowindow.open(map, marker);
-            /*
-            infowindow.addListener('closeclick', function(){
-                infowindow.setMarker(null)
-            })
-            */
         }
     }
 
