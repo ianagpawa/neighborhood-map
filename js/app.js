@@ -16,10 +16,8 @@ var ViewModel = function(){
         self.currentRestaurant(clicked);
         var selectedRestaurant = self.currentRestaurant();
         var restaurantMarker = selectedRestaurant.marker();
-
-        restaurantMarker.setAnimation(google.maps.Animation.BOUNCE)
-        infoWindow.setContent(restaurantMarker.content)
-        infoWindow.open(map, restaurantMarker)
+        
+        createInfoWindow(restaurantMarker, infoWindow)
     }
 
 

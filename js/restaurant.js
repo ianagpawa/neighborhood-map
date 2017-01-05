@@ -238,7 +238,18 @@ var restaurants = [
     }
 ];
 
-var animation;
+function createInfoWindow(marker, infowindow){
+    if (infowindow.marker != marker){
+        infowindow.marker = marker;
+        infowindow.setContent(marker.content);
+        infowindow.open(map, marker);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){
+            marker.setAnimation(null);
+        }, 1400);
+    }
+}
+
 
 /**
 * @description Initializes Google map on load
@@ -255,14 +266,6 @@ function initMap(){
     infoWindow = new google.maps.InfoWindow();
 
 
-    function createInfoWindow(marker, infowindow){
-        if (infowindow.marker != marker){
-            infowindow.marker = marker;
-            infowindow.setContent(marker.content);
-            infowindow.open(map, marker);
-        }
-    }
-
     Marker = function(datum){
         var mark = new google.maps.Marker({
             position: datum.coordinates(),
@@ -273,7 +276,7 @@ function initMap(){
         })
 
         mark.addListener('click', function(){
-            createInfoWindow(this, infoWindow)
+            createInfoWindow(this, infoWindow);
         })
 
         return mark
