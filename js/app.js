@@ -16,8 +16,8 @@ var ViewModel = function(){
         self.currentRestaurant(clicked);
         var selectedRestaurant = self.currentRestaurant();
         var restaurantMarker = selectedRestaurant.marker();
-        
-        createInfoWindow(restaurantMarker, infoWindow)
+
+        createInfoWindow(restaurantMarker, infoWindow);
     }
 
 
@@ -34,10 +34,11 @@ var ViewModel = function(){
             })
             return self.restaurantList();
         } else if (!filter){
-
             return self.restaurantList();
+
         } else if (filter) {
-            infoWindow.close()
+            infoWindow.close();
+
             function lowerCased(input){
                 var arr = input.split(" ");
                 var newArr = [];
@@ -46,7 +47,7 @@ var ViewModel = function(){
                     newArr.push(word.toLowerCase());
                 })
 
-                return newArr.join(" ")
+                return newArr.join(" ");
             }
 
             filter = lowerCased(filter);
