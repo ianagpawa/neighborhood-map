@@ -10,7 +10,7 @@ var ViewModel = function(){
     restaurants.forEach(function(rest){
         var restaurant = new Restaurant(rest);
         self.restaurantList.push(restaurant);
-    })
+    });
 
     this.getCurrentRestaurant = function(clicked){
         self.currentRestaurant(clicked);
@@ -18,7 +18,7 @@ var ViewModel = function(){
         var restaurantMarker = selectedRestaurant.marker();
 
         createInfoWindow(restaurantMarker, infoWindow);
-    }
+    };
 
 
     this.currentRestaurant = ko.observable( self.restaurantList[0] );
@@ -27,12 +27,15 @@ var ViewModel = function(){
 
     this.filteredList = ko.computed(function(){
         var filter = self.filter();
-        if (filter == ''){
+        if (filter == ""){
+
             ko.utils.arrayForEach(self.restaurantList(), function(restaurant){
                 var marker = restaurant.marker();
                 marker.setVisible(true);
-            })
+            });
+
             return self.restaurantList();
+
         } else if (!filter){
             return self.restaurantList();
 
@@ -45,7 +48,7 @@ var ViewModel = function(){
 
                 arr.forEach(function(word){
                     newArr.push(word.toLowerCase());
-                })
+                });
 
                 return newArr.join(" ");
             }
@@ -53,19 +56,19 @@ var ViewModel = function(){
             filter = lowerCased(filter);
 
             return ko.utils.arrayFilter(self.restaurantList(),
-                function(restaurant){
-                    var lowerCase = lowerCased(restaurant.name());
-                    var marker = restaurant.marker();
-                    if (!lowerCase.startsWith(filter)){
-                        marker.setVisible(false);
-                    } else {
-                        marker.setVisible(true);
-                    }
-                    return lowerCase.startsWith(filter);
-                })
+                    function(restaurant) {
+                var lowerCase = lowerCased(restaurant.name());
+                var marker = restaurant.marker();
+                if (!lowerCase.startsWith(filter)) {
+                    marker.setVisible(false);
+                } else {
+                    marker.setVisible(true);
+                }
+                return lowerCase.startsWith(filter);
+            });
         }
-    })
-}
+    });
+};
 
 
 ko.applyBindings(new ViewModel())

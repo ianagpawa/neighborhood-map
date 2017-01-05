@@ -1,5 +1,3 @@
-
-
 /**
 * @description Represents a restaurant
 * @constructor
@@ -9,8 +7,10 @@
 *number.
 */
 
-var Restaurant = function(data){
+var Restaurant = function (data) {
     var self = this;
+    var contentString;
+
     this.name = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.favorite = ko.observable(data.favorite);
@@ -22,11 +22,8 @@ var Restaurant = function(data){
     this.delivery = ko.observable();
     this.phone = ko.observable();
 
-
-    var contentString;
-
     this.contentString = ko.observable(contentString);
-    this.marker = ko.observable()
+    this.marker = ko.observable();
 
     /**
     * @description Ajax call to retrieve restaurant info from Foursquare
@@ -35,14 +32,13 @@ var Restaurant = function(data){
     *   data
     * @returns {object} response Retrieved restaurant info
     */
-    function getAjax(restaurant, callback){
-
+    function getAjax(restaurant, callback) {
         /**
         * @description Creates current date, needed for Foursquare ajax
         *   call
         * @returns {string} date Current date string
         */
-        function getCurrentDate(){
+        function getCurrentDate() {
             var today = new Date();
             var day = today.getDate();
             var month = today.getMonth() + 1;
@@ -51,28 +47,28 @@ var Restaurant = function(data){
             /**
             * @description Adds a zero to month or day.
             */
-            function addZero(n){
-                return ('0' + n).slice(-2);
+            function addZero(n) {
+                return ("0" + n).slice(-2);
             }
 
             day = addZero(day);
             month = addZero(month);
 
-            return year + month + day
-        };
+            return year + month + day;
+        }
 
         /*  Builds URL string for ajax call */
-        var urlStart = "https://api.foursquare.com/v2/venues/search?ll="
-        var coordinates = "40.793,-73.941"
+        var urlStart = "https://api.foursquare.com/v2/venues/search?ll=";
+        var coordinates = "40.793,-73.941";
 
         /**
         * @description Formats name of restaurant
         * @param {string} restaurant_name
         * @returns {string} Formatted restaurant name
         */
-        function formatName(restaurant_name){
+        function formatName (restaurant_name) {
             var name_array = restaurant_name.split(" ");
-            return name_array.join("%20")
+            return name_array.join("%20");
         }
 
         var restaurant_name = formatName(restaurant.name());
@@ -97,20 +93,20 @@ var Restaurant = function(data){
                   version;
 
         $.ajax({
-            dataType: 'json',
+            dataType: "json",
             url: url,
-            success: function(foursquare){
+            success: function (foursquare) {
                 data = foursquare.response.venues[0];
-                callback(data)
+                callback(data);
             },
-            error: function(error){
-                alert('Something went wrong with Foursquare!');
+            error: function (error) {
+                alert("Something went wrong with Foursquare!");
             }
         });
-    };
+    }
 
 
-    getAjax(self, function(data){
+    getAjax(self, function (data) {
         var id = data.id;
         self.id(id);
 
@@ -120,7 +116,7 @@ var Restaurant = function(data){
         var menu;
         var delivery;
 
-        if (data.hasMenu){
+        if (data.hasMenu) {
             menu = data.menu.url;
             self.menu(menu);
 
@@ -131,50 +127,48 @@ var Restaurant = function(data){
         var phone = data.contact.formattedPhone;
         self.phone(phone);
 
-        if (!phone){
-            phone = ''
+        if (!phone) {
+            phone = "";
         }
 
-
-        var summary = self.summary()
+        var summary = self.summary();
 
         var labelMenu;
-        if (self.menu()){
+        if (self.menu()) {
             labelMenu = "See Menu";
         } else {
             labelMenu = "";
         }
 
         var labelDelivery;
-        if (self.delivery()){
+        if (self.delivery()) {
             labelDelivery = "Get Delivery";
         } else {
             labelDelivery = "";
         }
 
         contentString = "<div class='text-center' id='content>" +
-                            "<h1 id='restaurant_name' class='firstHeading'>"+
-                            `<b>${self.name()}</b>`+
-                            "</h1>"+
-                            "<div id='restaurant_info'>"+
-                            `<p>${self.address()}</p>`+
-                            `<p>${phone}</p>`+
-                            `<p>${summary}</p>`+
-                            `<p>Favorite Taco: ${self.favorite()}</p>`+
-                            "<p>"+
-                            `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>`+
-                            "</p>"+
-                            "<p>"+
-                            `<a href='${self.delivery()}' target='_blank'>`+
-                            `${labelDelivery}`+
-                            "</a></p></div></div>";
+                        "<h1 id='restaurant_name' class='firstHeading'>" +
+                        `<b>${self.name()}</b>` +
+                        "</h1>"+
+                        "<div id='restaurant_info'>" +
+                        `<p>${self.address()}</p>` +
+                        `<p>${phone}</p>` +
+                        `<p>${summary}</p>` +
+                        `<p>Favorite Taco: ${self.favorite()}</p>` +
+                        "<p>" +
+                        `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>` +
+                        "</p>" +
+                        "<p>" +
+                        `<a href='${self.delivery()}' target='_blank'>` +
+                        `${labelDelivery}` +
+                        "</a></p></div></div>";
 
         self.contentString(contentString);
 
         self.marker(new Marker(self));
-    })
-
-}
+    });
+};
 
 
 /*
@@ -183,19 +177,19 @@ var Restaurant = function(data){
 */
 var restaurants = [
     {
-        name: 'El Paso Mexicano',
+        name: "El Paso Mexicano",
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
         favorite: "Fish Taco",
-        summary: "Favorite taco place.  They got rid of the Lengua tacos, but their remaining taco line up is pretty solid. Really good green sauce.",
+        summary: "Favorite taco place.  They got rid of the Lengua tacos, but their remaining taco line up is pretty solid. Really good green sauce."
     },
     {
-        name: 'Taco Mix',
+        name: "Taco Mix",
         coordinates: {lat: 40.79727935, lng: -73.938542},
         favorite: "Oreja Taco",
         summary: "Authentic tacos, but a bit inconsistent.  Wide range of taco offerings. Decent."
     },
     {
-        name: 'Guajillo',
+        name: "Guajillo",
         coordinates: {lat: 40.796939, lng: -73.935039},
         favorite: "Tripa Taco",
         summary: "Good tacos, but not always great."
@@ -216,19 +210,19 @@ var restaurants = [
     {
         name: "Lupita's",
         coordinates: {lat: 40.79014530307375, lng: -73.942862034803},
-        favorite: 'Pollo Taco',
+        favorite: "Pollo Taco",
         summary: "Ok tacos, not bad."
     },
     {
         name: "Hot Jalapeno",
         coordinates: {lat: 40.7977, lng: -73.939},
-        favorite: 'Carne Asada Taco',
+        favorite: "Carne Asada Taco",
         summary: "Suprisingly decent."
     },
     {
         name: "Taqueria Guadalupe",
         coordinates: {lat: 40.79402106079923, lng: -73.94332126150972},
-        favorite: 'Chorizo Taco',
+        favorite: "Chorizo Taco",
         summary: "Meh.  There are better places to eat better food.  Last resort tacos."
     }
 ];
