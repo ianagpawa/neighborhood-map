@@ -9,7 +9,7 @@
 var Restaurant = function (data) {
     var self = this;
 
-    this.res = ko.observable(data.name)
+    this.res = ko.observable(data.name);
     this.coordinates = ko.observable(data.coordinates);
     this.favorite = ko.observable(data.favorite);
     this.summary = ko.observable(data.summary);
@@ -65,7 +65,7 @@ var Restaurant = function (data) {
         * @param {string} restaurant_name Restaurant name
         * @returns {string} Formatted restaurant name
         */
-        function formatName (restaurant_name) {
+        function formatName(restaurant_name) {
             var name_array = restaurant_name.split(" ");
             return name_array.join("%20");
         }
@@ -150,22 +150,22 @@ var Restaurant = function (data) {
         }
 
         var contentString = "<div class='text-center' id='content>" +
-                        "<h1 id='restaurant_name' class='firstHeading'>" +
-                        `<b>${self.name()}</b>` +
-                        "</h1>"+
-                        "<div id='restaurant_info'>" +
-                        `<p>${self.address()}</p>` +
-                        `<p>${phone}</p>` +
-                        `<p>${summary}</p>` +
-                        `<p>Favorite Taco: ${self.favorite()}</p>` +
-                        "<p>" +
-                        `<a href='${self.menu()}' ` +
-                        `target='_blank'>${labelMenu}</a>` +
-                        "</p>" +
-                        "<p>" +
-                        `<a href='${self.delivery()}' target='_blank'>` +
-                        `${labelDelivery}` +
-                        "</a></p></div></div>";
+                            "<h1 id='restaurant_name' class='firstHeading'>" +
+                            `<b>${self.name()}</b>` +
+                            "</h1>"+
+                            "<div id='restaurant_info'>" +
+                            `<p>${self.address()}</p>` +
+                            `<p>${phone}</p>` +
+                            `<p>${summary}</p>` +
+                            `<p>Favorite Taco: ${self.favorite()}</p>` +
+                            "<p>" +
+                            `<a href='${self.menu()}' ` +
+                            `target='_blank'>${labelMenu}</a>` +
+                            "</p>" +
+                            "<p>" +
+                            `<a href='${self.delivery()}' target='_blank'>` +
+                            `${labelDelivery}` +
+                            "</a></p></div></div>";
 
         self.contentString(contentString);
 
@@ -184,15 +184,15 @@ var restaurants = [
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
         favorite: "Fish Taco",
         summary: "Favorite taco place.  They got rid of the Lengua tacos, " +
-                 "but their remaining taco line up is pretty solid. " +
-                 "Really good green sauce."
+                "but their remaining taco line up is pretty solid. " +
+                "Really good green sauce."
     },
     {
         name: "Taco Mix",
         coordinates: {lat: 40.79727935, lng: -73.938542},
         favorite: "Oreja Taco",
         summary: "Authentic tacos, but a bit inconsistent.  " +
-                 "Wide range of taco offerings. Decent."
+                "Wide range of taco offerings. Decent."
     },
     {
         name: "Guajillo",
@@ -230,6 +230,6 @@ var restaurants = [
         coordinates: {lat: 40.79402106079923, lng: -73.94332126150972},
         favorite: "Chorizo Taco",
         summary: "Meh.  There are better places to eat better food.  " +
-                 "Last resort tacos."
+                "Last resort tacos."
     }
 ];

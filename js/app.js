@@ -2,17 +2,17 @@
 /**
 * @description Creates ViewModel for knockout binding
 */
-var ViewModel = function(){
+var ViewModel = function () {
     var self = this;
 
-    this.restaurantList = ko.observableArray([])
+    this.restaurantList = ko.observableArray([]);
 
-    restaurants.forEach(function(rest){
+    restaurants.forEach(function (rest) {
         var restaurant = new Restaurant(rest);
         self.restaurantList.push(restaurant);
     });
 
-    this.getCurrentRestaurant = function(clicked){
+    this.getCurrentRestaurant = function (clicked) {
         self.currentRestaurant(clicked);
         var selectedRestaurant = self.currentRestaurant();
         var restaurantMarker = selectedRestaurant.marker();
@@ -21,22 +21,22 @@ var ViewModel = function(){
     };
 
 
-    this.currentRestaurant = ko.observable( self.restaurantList[0] );
+    this.currentRestaurant = ko.observable(self.restaurantList[0]);
 
     this.filter = ko.observable();
 
-    this.filteredList = ko.computed(function(){
+    this.filteredList = ko.computed(function () {
         var filter = self.filter();
-        if (filter == ""){
+        if (filter === "") {
 
-            ko.utils.arrayForEach(self.restaurantList(), function(restaurant){
+            ko.utils.arrayForEach(self.restaurantList(), function (restaurant) {
                 var marker = restaurant.marker();
                 marker.setVisible(true);
             });
 
             return self.restaurantList();
 
-        } else if (!filter){
+        } else if (!filter) {
             return self.restaurantList();
 
         } else if (filter) {
@@ -47,11 +47,11 @@ var ViewModel = function(){
             * @param {string} input Restaurant name
             * @returns {string} lowercase string of restaurant name
             */
-            function lowerCased(input){
+            function lowerCased (input) {
                 var arr = input.split(" ");
                 var newArr = [];
 
-                arr.forEach(function(word){
+                arr.forEach(function (word) {
                     newArr.push(word.toLowerCase());
                 });
 
@@ -61,11 +61,9 @@ var ViewModel = function(){
             filter = lowerCased(filter);
 
             return ko.utils.arrayFilter(self.restaurantList(),
-                    function(restaurant) {
+                    function (restaurant) {
                 var lowerCase = lowerCased(restaurant.name());
                 var marker = restaurant.marker();
-                console.log('lowerCase =' + lowerCase)
-                console.log('filter = ' + filter)
                 if (!lowerCase.includes(filter)) {
                     marker.setVisible(false);
                 } else {
@@ -78,4 +76,4 @@ var ViewModel = function(){
 };
 
 
-ko.applyBindings(new ViewModel())
+ko.applyBindings(new ViewModel());
