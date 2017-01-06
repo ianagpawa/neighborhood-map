@@ -150,22 +150,22 @@ var Restaurant = function (data) {
         }
 
         var contentString = "<div class='text-center' id='content>" +
-                            "<h1 id='restaurant_name' class='firstHeading'>" +
-                            `<b>${self.name()}</b>` +
-                            "</h1>"+
-                            "<div id='restaurant_info'>" +
-                            `<p>${self.address()}</p>` +
-                            `<p>${phone}</p>` +
-                            `<p>${summary}</p>` +
-                            `<p>Favorite Taco: ${self.favorite()}</p>` +
-                            "<p>" +
-                            `<a href='${self.menu()}' ` +
-                            `target='_blank'>${labelMenu}</a>` +
-                            "</p>" +
-                            "<p>" +
-                            `<a href='${self.delivery()}' target='_blank'>` +
-                            `${labelDelivery}` +
-                            "</a></p></div></div>";
+            "<h1 id='restaurant_name' class='firstHeading'>" +
+            `<b>${self.name()}</b>` +
+            "</h1>"+
+            "<div id='restaurant_info'>" +
+            `<p>${self.address()}</p>` +
+            `<p>${phone}</p>` +
+            `<p>${summary}</p>` +
+            `<p>Favorite Taco: ${self.favorite()}</p>` +
+            "<p>" +
+            `<a href='${self.menu()}' ` +
+            `target='_blank'>${labelMenu}</a>` +
+            "</p>" +
+            "<p>" +
+            `<a href='${self.delivery()}' target='_blank'>` +
+            `${labelDelivery}` +
+            "</a></p></div></div>";
 
         self.contentString(contentString);
 
