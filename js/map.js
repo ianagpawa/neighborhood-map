@@ -2,16 +2,19 @@ var map;
 var infoWindow;
 var Marker;
 
+/**
+* @description Populates Google Maps Info Window with restaurant information and animates the marker to bounce.
+* @param {object} marker Google Maps restaurant marker object
+* @param {object} infowindow Google Maps Info Window (singular instance)
+*/
 function createInfoWindow(marker, infowindow) {
-    if (infowindow.marker !== marker) {
-        infowindow.marker = marker;
-        infowindow.setContent(marker.content);
-        infowindow.open(map, marker);
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function () {
-            marker.setAnimation(null);
-        }, 700);
-    }
+    infowindow.marker = marker;
+    infowindow.setContent(marker.content);
+    infowindow.open(map, marker);
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function () {
+        marker.setAnimation(null);
+    }, 700);
 }
 
 /**

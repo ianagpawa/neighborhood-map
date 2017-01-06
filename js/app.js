@@ -42,6 +42,11 @@ var ViewModel = function(){
         } else if (filter) {
             infoWindow.close();
 
+            /**
+            * @description Converts multiple word strings to all lower case
+            * @param {string} input Restaurant name
+            * @returns {string} lowercase string of restaurant name
+            */
             function lowerCased(input){
                 var arr = input.split(" ");
                 var newArr = [];
@@ -59,12 +64,14 @@ var ViewModel = function(){
                     function(restaurant) {
                 var lowerCase = lowerCased(restaurant.name());
                 var marker = restaurant.marker();
-                if (!lowerCase.startsWith(filter)) {
+                console.log('lowerCase =' + lowerCase)
+                console.log('filter = ' + filter)
+                if (!lowerCase.includes(filter)) {
                     marker.setVisible(false);
                 } else {
                     marker.setVisible(true);
                 }
-                return lowerCase.startsWith(filter);
+                return lowerCase.includes(filter);
             });
         }
     });

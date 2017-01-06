@@ -3,36 +3,35 @@
 * @constructor
 * @param {object} restaurant object with restaurant name, GPS
 * coordinates, Foursquare restaurant ID, address, url link to menu,
-* url link to seamless, favorite taco, personal review summary, and phone
-*number.
+* url link to seamless, favorite taco, personal review summary, phone
+* number, and Google Maps marker.
 */
-
 var Restaurant = function (data) {
     var self = this;
-    var contentString;
 
-    this.name = ko.observable(data.name);
+    this.res = ko.observable(data.name)
     this.coordinates = ko.observable(data.coordinates);
     this.favorite = ko.observable(data.favorite);
     this.summary = ko.observable(data.summary);
 
+    this.name = ko.observable();
     this.id = ko.observable();
     this.address = ko.observable();
     this.menu = ko.observable();
     this.delivery = ko.observable();
     this.phone = ko.observable();
 
-    this.contentString = ko.observable(contentString);
+    this.contentString = ko.observable();
     this.marker = ko.observable();
 
     /**
     * @description Ajax call to retrieve restaurant info from Foursquare
-    * @param {string} restaurant_name Restaurant name
+    * @param {object} restaurant Restaurant object
     * @param {function} callback Callback function for handling ajax response
     *   data
-    * @returns {object} response Retrieved restaurant info
     */
     function getAjax(restaurant, callback) {
+
         /**
         * @description Creates current date, needed for Foursquare ajax
         *   call
@@ -63,7 +62,7 @@ var Restaurant = function (data) {
 
         /**
         * @description Formats name of restaurant
-        * @param {string} restaurant_name
+        * @param {string} restaurant_name Restaurant name
         * @returns {string} Formatted restaurant name
         */
         function formatName (restaurant_name) {
@@ -71,7 +70,7 @@ var Restaurant = function (data) {
             return name_array.join("%20");
         }
 
-        var restaurant_name = formatName(restaurant.name());
+        var restaurant_name = formatName(restaurant.res());
         var query = `&query=${restaurant_name}`;
 
         var city = "&near=New%20York,NY";
@@ -107,6 +106,9 @@ var Restaurant = function (data) {
 
 
     getAjax(self, function (data) {
+        var name = data.name;
+        self.name(name);
+
         var id = data.id;
         self.id(id);
 
@@ -142,12 +144,12 @@ var Restaurant = function (data) {
 
         var labelDelivery;
         if (self.delivery()) {
-            labelDelivery = "Get Delivery";
+            labelDelivery = "Get Delivery!";
         } else {
             labelDelivery = "";
         }
 
-        contentString = "<div class='text-center' id='content>" +
+        var contentString = "<div class='text-center' id='content>" +
                         "<h1 id='restaurant_name' class='firstHeading'>" +
                         `<b>${self.name()}</b>` +
                         "</h1>"+
@@ -157,7 +159,8 @@ var Restaurant = function (data) {
                         `<p>${summary}</p>` +
                         `<p>Favorite Taco: ${self.favorite()}</p>` +
                         "<p>" +
-                        `<a href='${self.menu()}' target='_blank'>${labelMenu}</a>` +
+                        `<a href='${self.menu()}' ` +
+                        `target='_blank'>${labelMenu}</a>` +
                         "</p>" +
                         "<p>" +
                         `<a href='${self.delivery()}' target='_blank'>` +
@@ -180,13 +183,16 @@ var restaurants = [
         name: "El Paso Mexicano",
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
         favorite: "Fish Taco",
-        summary: "Favorite taco place.  They got rid of the Lengua tacos, but their remaining taco line up is pretty solid. Really good green sauce."
+        summary: "Favorite taco place.  They got rid of the Lengua tacos, " +
+                 "but their remaining taco line up is pretty solid. " +
+                 "Really good green sauce."
     },
     {
         name: "Taco Mix",
         coordinates: {lat: 40.79727935, lng: -73.938542},
         favorite: "Oreja Taco",
-        summary: "Authentic tacos, but a bit inconsistent.  Wide range of taco offerings. Decent."
+        summary: "Authentic tacos, but a bit inconsistent.  " +
+                 "Wide range of taco offerings. Decent."
     },
     {
         name: "Guajillo",
@@ -223,6 +229,7 @@ var restaurants = [
         name: "Taqueria Guadalupe",
         coordinates: {lat: 40.79402106079923, lng: -73.94332126150972},
         favorite: "Chorizo Taco",
-        summary: "Meh.  There are better places to eat better food.  Last resort tacos."
+        summary: "Meh.  There are better places to eat better food.  " +
+                 "Last resort tacos."
     }
 ];
