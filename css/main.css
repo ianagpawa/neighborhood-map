@@ -1,3 +1,28 @@
+@media screen and (max-width: 400px){
+    h1{
+        font-size: 19px;
+    }
+    h3{
+        font-size: 12px;;
+    }
+    #map{
+        width: 100vw;
+    }
+}
+
+
+@media screen and (min-width: 401px) and (max-width: 700px){
+    h1{
+        font-size: 24px;
+    }
+    h3{
+        font-size: 20px;
+    }
+    #map{
+
+    }
+}
+
 
 #map {
   height: 80vh;
