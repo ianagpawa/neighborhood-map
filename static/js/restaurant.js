@@ -149,7 +149,7 @@ var Restaurant = function (data) {
             labelDelivery = "";
         }
 
-        var contentString = "<div class='text-center' id='content>" +
+        var contentString = "<div class='text-center' id='content'>" +
             "<h1 id='restaurant_name' class='firstHeading'>" +
             `<b>${self.name()}</b>` +
             "</h1>"+
