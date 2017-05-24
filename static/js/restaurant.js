@@ -137,35 +137,37 @@ var Restaurant = function (data) {
 
         var labelMenu;
         if (self.menu()) {
-            labelMenu = "See Menu";
+            labelMenu = "See Menu ";
         } else {
             labelMenu = "";
         }
 
         var labelDelivery;
         if (self.delivery()) {
-            labelDelivery = "Get Delivery!";
+            labelDelivery = "| Order Seamless!";
         } else {
             labelDelivery = "";
         }
 
-        var contentString = "<div class='text-center' id='content'>" +
-            "<h1 id='restaurant_name' class='firstHeading'>" +
+        var contentString = "<div class='text-left' id='content'>" +
+            "<div class='info-top'>" +
+            "<h2 id='restaurant_name' class='firstHeading text-center'>" +
             `<b>${self.name()}</b>` +
-            "</h1>"+
+            "</h2>" +
+            "</div>" +
             "<div id='restaurant_info'>" +
-            `<p>${self.address()}</p>` +
-            `<p>${phone}</p>` +
-            `<p>${summary}</p>` +
-            `<p>Favorite Taco: ${self.favorite()}</p>` +
+            `<p><span class='bold'>Address:</span> ${self.address()}</p>` +
+            `<p><span class='bold'>Phone:</span> ${phone}</p>` +
+            `<p><span class='bold'>Description:</span> ${summary}</p>` +
+            `<p><span class='bold'>Favorite Taco:</span> ${self.favorite()}</p>` +
             "<p>" +
-            `<a href='${self.menu()}' ` +
+            `<span><a href='${self.menu()}' ` +
             `target='_blank'>${labelMenu}</a>` +
-            "</p>" +
-            "<p>" +
+            "</span> " +
+            "<span>" +
             `<a href='${self.delivery()}' target='_blank'>` +
             `${labelDelivery}` +
-            "</a></p></div></div>";
+            "</a></span></div></div>";
 
         self.contentString(contentString);
 

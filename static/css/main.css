@@ -45,7 +45,26 @@ html, body {
     cursor: pointer;
 }
 
-.gm-style-iw {
-  width: 300px;
-  min-height: 150px;
+
+#content{
+    padding:0;
+    margin:0;
+}
+
+a{
+    color: #0070eb;
+}
+
+div.gm-style-iw{
+    width: 300px;
+    min-height: 150px;
+}
+.info-top{
+    background-color: #F63440;
+    color: white;
+    padding: 0;
+}
+
+.bold{
+    font-weight: bold;
 }

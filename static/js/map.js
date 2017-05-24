@@ -26,7 +26,7 @@ function initMap() {
         zoom: 16
     });
 
-    infoWindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 320});
 
     Marker = function (datum) {
         var mark = new google.maps.Marker({
