@@ -166,7 +166,7 @@ var Restaurant = function (data) {
             `<p><span class='bold'>Phone:</span> ${phone}</p>` +
             `<p><span class='bold'>Description:</span> ${summary}</p>` +
             `<p><span class='bold'>Favorite Taco:</span> ${self.favorite()}</p>` +
-            "<p>" +
+            "<p class='text-center'>" +
             `<span><a href='${self.menu()}' ` +
             `target='_blank'>${labelMenu}</a>` +
             "</span> " +
