@@ -36,10 +36,14 @@ var ViewModel = function () {
 
             return self.restaurantList();
 
-        } else if (!filter) {
+        }
+
+        if (!filter) {
             return self.restaurantList();
 
-        } else if (filter) {
+        }
+
+        if (filter) {
             infoWindow.close();
 
             /**
@@ -59,6 +63,7 @@ var ViewModel = function () {
             }
 
             filter = lowerCased(filter);
+
 
             return ko.utils.arrayFilter(self.restaurantList(),
                     function (restaurant) {

@@ -118,12 +118,18 @@ var Restaurant = function (data) {
         var menu;
         var delivery;
 
-        if (data.hasMenu) {
-            menu = data.menu.url;
-            self.menu(menu);
 
-            delivery = data.delivery.url;
-            self.delivery(delivery);
+        try {
+            if (data.hasMenu) {
+                menu = data.menu.url;
+                self.menu(menu);
+
+                delivery = data.delivery.url;
+                self.delivery(delivery);
+            }
+        }
+        catch (err){
+
         }
 
         var phone = data.contact.formattedPhone;
