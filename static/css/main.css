@@ -51,13 +51,33 @@ html, body {
     margin:0;
 }
 
+.top-div{
+    padding: 0;
+}
+.headline-div{
+    background-color: #F63440;
+    padding: 0;
+
+}
+
+#title{
+    color: white;
+    margin-right: 8vw;
+    font-weight: bold;
+}
+.dropdown-toggle{
+    margin-top: 2vh;
+}
+
 a{
     color: #0070eb;
 }
 
 div.gm-style-iw{
-    width: 300px;
-    min-height: 150px;
+    width: 100x;
+    min-height: 175px;
+
+    padding: 0;
 }
 .info-top{
     background-color: #F63440;
