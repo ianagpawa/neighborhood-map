@@ -40,7 +40,7 @@ html, body {
 }
 
 .dropdown-li:hover{
-    background-color: black;
+    background-color: #F63440;
     color: white;
     cursor: pointer;
 }
