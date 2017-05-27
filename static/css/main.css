@@ -30,7 +30,7 @@
 }
 #map {
   height: 80vh;
-  width: 95vw;
+  width: 98vw;
 }
 
 html, body {
@@ -38,6 +38,13 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+#dropdownMenu1{
+    background-color: #F63440;
+    color: white;
+    border: 1px solid white;
+}
+
 
 .dropdown-li:hover{
     background-color: #F63440;
