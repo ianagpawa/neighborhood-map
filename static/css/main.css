@@ -8,6 +8,9 @@
     #map{
         width: 100vw;
     }
+    .top-text{
+        padding-left: 0vw;
+    }
 }
 
 
@@ -18,9 +21,7 @@
     h3{
         font-size: 20px;
     }
-    #map{
 
-    }
 }
 
 
@@ -52,6 +53,16 @@ html, body {
     cursor: pointer;
 }
 
+.top-text{
+    display: inline-block;
+}
+
+#title{
+    margin-left: 5vw;
+}
+#port{
+    color: white;
+}
 
 #content{
     padding:0;
@@ -66,6 +77,7 @@ html, body {
     padding: 0;
 
 }
+
 
 #title{
     color: white;
