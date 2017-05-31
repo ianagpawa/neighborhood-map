@@ -64,11 +64,9 @@ html, body {
     color: white;
 }
 
-#content{
-    padding:0;
-    margin:0;
+#name{
+    margin-top: 4vh;
 }
-
 .top-div{
     padding: 0;
 }
