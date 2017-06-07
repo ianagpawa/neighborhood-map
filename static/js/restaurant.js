@@ -136,7 +136,7 @@ var Restaurant = function (data) {
         self.phone(phone);
 
         if (!phone) {
-            phone = "";
+            phone = "None Listed";
         }
 
         var summary = self.summary();
