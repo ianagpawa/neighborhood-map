@@ -30,7 +30,7 @@
     text-decoration: none;
 }
 #map {
-  height: 80vh;
+  height: 84vh;
   width: 98vw;
 }
 
@@ -53,33 +53,26 @@ html, body {
     cursor: pointer;
 }
 
-.top-text{
-    display: inline-block;
-}
 
-#title{
-    margin-left: 5vw;
-}
 #port{
     color: white;
 }
 
 #name{
-    margin-top: 4vh;
+    margin-top: 3vh;
 }
-.top-div{
-    padding: 0;
-}
+
+
 .headline-div{
     background-color: #F63440;
-    padding: 0;
+
 
 }
 
 
 #title{
     color: white;
-    margin-right: 8vw;
+
     font-weight: bold;
 }
 .dropdown-toggle{
