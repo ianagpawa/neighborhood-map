@@ -191,17 +191,17 @@ var restaurants = [
         name: "El Paso Mexicano",
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
         favorite: "Fish Taco",
-        summary: "My second fvorite taco place.  They got rid of the gengua " +
+        summary: "My second fvorite taco place.  They got rid of the lengua " +
                 "tacos but their remaining taco line up is pretty solid. " +
-                "My favorite are the fish tacos, which are fried, but their "+
+                "My favorite is the fish taco, which are fried, but their "+
                 "carnitas, chorizo, and al pastor tacos are also pretty good." +
                 "They also offer a short rib taco with watermelon pico, which " +
-                "is interesting.  My favorite salsa verde, good guacamole."
+                "is interesting.  This place has my favorite salsa verde, pretty good guacamole too"
     },
     {
         name: "Taco Mix",
         coordinates: {lat: 40.79727935, lng: -73.938542},
-        favorite: "Oreja Taco",
+        favorite: "Oreja Taco (Pig Ears)",
         summary: "Authentic tacos, but a bit inconsistent.  " +
                 "Wide range of taco offerings, my favorite being the orejas. " +
                 "However, they can be greasy at times.."
@@ -209,14 +209,14 @@ var restaurants = [
     {
         name: "Guajillo",
         coordinates: {lat: 40.796939, lng: -73.935039},
-        favorite: "Tripa Taco",
+        favorite: "Tripa Taco (Beef stomache)",
         summary: "Good tacos, but not always great.  My third choice.  Their fish " +
         "tacos are grilled.  Good salsa verde, ok hot sauce."
     },
     {
         name: "Delicias Mexicanas",
         coordinates: {lat: 40.79746301121289, lng: -73.94036497052035},
-        favorite: "Lengua Tacos and Tripa Tacos",
+        favorite: "Lengua Tacos (Beef Tongue) and Tripa Tacos (Beef stomache)",
         summary: "Currently my favorite taco restaurant.  I love their lengua "+
         "and tripa tacos.  Their salsa verde is good, a bit too much crema "+
         "for my taste, but still good.  Their other sauces are spicy and tasty."
