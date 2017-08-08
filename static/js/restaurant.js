@@ -191,28 +191,31 @@ var restaurants = [
         name: "El Paso Mexicano",
         coordinates: {lat: 40.79072812277658, lng: -73.94721890430739},
         favorite: "Fish Taco",
-        summary: "Favorite taco place.  They got rid of the Lengua tacos, " +
-                "but their remaining taco line up is pretty solid. " +
-                "Really good green sauce."
+        summary: "My second fvorite taco place.  They got rid of the Lengua " +
+                "tacos but their remaining taco line up is pretty solid. " +
+                "They offer a short rib taco with watermelon pico, which " +
+                "is interesting.  My favorite salsa verde, good guacamol."
     },
     {
         name: "Taco Mix",
         coordinates: {lat: 40.79727935, lng: -73.938542},
         favorite: "Oreja Taco",
         summary: "Authentic tacos, but a bit inconsistent.  " +
-                "Wide range of taco offerings. Decent."
+                "Wide range of taco offerings, my favorite being the orejas. " +
+                "Decent."
     },
     {
         name: "Guajillo",
         coordinates: {lat: 40.796939, lng: -73.935039},
         favorite: "Tripa Taco",
-        summary: "Good tacos, but not always great."
+        summary: "Good tacos, but not always great.  "
     },
     {
         name: "Delicias Mexicanas",
         coordinates: {lat: 40.79746301121289, lng: -73.94036497052035},
-        favorite: "Al Pastor Taco",
-        summary: "Good food, no complaints."
+        favorite: "Lengua Tacos and Tripa Tacos",
+        summary: "Currently my favorite taco restaurant.  I love their lengua and tripa tacos.  Their salsa verde is good, a bit too much crema "+
+        "for my taste, but still good.  Their other sauces are spicy and tasty."
     },
     {
         name: "Ollin",
