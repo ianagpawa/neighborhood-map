@@ -246,6 +246,27 @@ var restaurants = [
         favorite: "Chorizo Taco",
         summary: "Meh.  There are better places to eat better food.  " +
                 "Last resort tacos."
+    },
+    {
+        name: "Burritos Y Mas",
+        coordinates: {lat: 40.78879863582666, lng: -73.94859841887865},
+        favorite: "",
+        summary: ""
+    },
+    {
+        name: "L'Encanto D'Lola",
+        coordinates: {lat: 40.80011594762893, lng: -73.95123701053632},
+        favorite: "Carnitas Taco",
+        summary: "Standard tacos.  The Carne Asada is disappointing, cooked  " +
+                "on a grilltop and not over a charcoal grill.  The chicken is "+
+                "prepared the same way.  Good burritos though."
+    },
+    {
+        name: "Mojitos",
+        coordinates: {lat: 40.79760392116124, lng: -73.93875764774252},
+        favorite: "Carnitas Taco",
+        summary: ""
     }
+
 
 ];
