@@ -211,7 +211,8 @@ var restaurants = [
         coordinates: {lat: 40.796939, lng: -73.935039},
         favorite: "Tripa Taco (Beef stomache)",
         summary: "Good tacos, but not always great.  My third choice.  Their fish " +
-        "tacos are grilled.  Good salsa verde, ok hot sauce."
+        "tacos are grilled, but topped with too much lettuce, making it too sloppy "+
+        "of a taco.  Good salsa verde, ok hot sauce."
     },
     {
         name: "Delicias Mexicanas",
@@ -225,7 +226,8 @@ var restaurants = [
         name: "Ollin",
         coordinates: {lat: 40.791111156036116, lng: -73.93960723430115},
         favorite: "Lengua Taco",
-        summary: "Pretty good food, good offerings, authentic tacos."
+        summary: "Pretty good food, good offerings, authentic tacos.  You get 3 tacos "+
+        "per order, so you can't really mix and match."
     },
 
     {
@@ -259,7 +261,8 @@ var restaurants = [
         name: "Mojitos",
         coordinates: {lat: 40.79760392116124, lng: -73.93875764774252},
         favorite: "Camaron Taco",
-        summary: "Good tacos, good sauces.  "
+        summary: "Good tacos, good sauces.  They have other offerings too, not just "+
+        "Mexican food."
     }
 
 
